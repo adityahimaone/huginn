@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+*.log
+
+# Local assistant state: session memory and workspace metadata. Useful on this
+# machine, not part of the brand kit.
+.workbuddy-ai/
+
+# Build output from a consuming app, if someone works in place.
+.next/
+out/
+dist/

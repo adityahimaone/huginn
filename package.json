@@ -1,0 +1,25 @@
+{
+  "name": "huginn",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Brand kit and design system for Huginn — a studio for slow software.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "npm run build:tokens && npm run build:brand && npm run build:inline && npm run build:component",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "build:brand": "node scripts/build-brand.mjs",
+    "build:inline": "node scripts/inline-brand.mjs",
+    "build:component": "node scripts/build-component.mjs",
+    "audit": "npm run audit:contrast && npm run audit:motion",
+    "audit:contrast": "node scripts/audit-contrast.mjs --theme light && node scripts/audit-contrast.mjs --theme dark",
+    "audit:motion": "node scripts/audit-motion.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "shots": "node scripts/shot.mjs --url design-system.html --out docs/shots/1440-full.png --w 1440 --h 1000 --full && node scripts/shot.mjs --url design-system.html --out docs/shots/390-full.png --w 390 --h 844 --full && node scripts/shot.mjs --url design-system.html --out docs/shots/1440-dark-full.png --w 1440 --h 1000 --full --theme dark"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "playwright-core": "^1.64.0",
+    "typescript": "^5.7.0"
+  }
+}
