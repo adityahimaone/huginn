@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Brand kit starter</title>
+<!--
+  A 3 × 3 brand-board starter. Replace the placeholder brand, mark, palette and
+  copy. Keep the grid; change the content. The board is rendered to PNG with
+  `scripts/render-board.mjs` (Playwright), at 2400 × 1800 and 2×.
+
+  Fonts: this starter uses Google Fonts for speed. For a real kit, download the
+  licensed files and load them locally with @font-face so the board renders
+  offline and the type is exact.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600&family=Syne:wght@600;700;800&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --paper: #f3ecdf;
+    --paper-hi: #fffaf1;
+    --paper-lo: #e9dfcf;
+    --ink: #191a2e;
+    --muted: #5f5b6e;
+    --cobalt: #3d53d6;
+    --butter: #ffd23f;
+    --tangerine: #ff6a2b;
+    --display: 'Syne', system-ui, sans-serif;
+    --ui: 'Geist', system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #121321; }
+  body { font-family: var(--ui); color: var(--ink); }
+
+  /* The board. 2400 × 1800 = 4:3. */
+  #board {
+    position: relative;
+    width: 2400px;
+    height: 1800px;
+    padding: 54px;
+    background:
+      radial-gradient(circle at 15% 0%, rgb(61 83 214 / 0.16), transparent 45%),
+      #121321;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.06fr 1fr 1fr;
+    grid-template-rows: 1.14fr 1fr 1fr;
+    gap: 14px;
+    height: 100%;
+  }
+
+  .panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 36px 38px;
+    border-radius: 18px;
+  }
+
+  .panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: radial-gradient(circle, var(--ink) 0.7px, transparent 0.8px);
+    background-size: 5px 5px;
+  }
+
+  .paper { background: var(--paper); }
+  .hi { background: var(--paper-hi); }
+  .ink { background: var(--ink); color: var(--paper); }
+  .cobalt { background: var(--cobalt); color: var(--paper-hi); }
+  .butter { background: var(--butter); }
+
+  .kicker {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .kicker b { font-weight: 500; opacity: 0.8; }
+  .ink .kicker, .cobalt .kicker { opacity: 0.55; }
+
+  /* 01 — cover, spans two columns. */
+  .cover { grid-column: span 2; justify-content: space-between; padding: 44px 48px; }
+  .cover-lockup { display: flex; align-items: center; gap: 18px; margin-top: 4px; }
+  .mark { width: 150px; height: 150px; flex: none; }
+  .wordmark {
+    font-family: var(--display);
+    font-size: 96px;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+  }
+  .cover-line {
+    max-width: 980px;
+    margin: 26px 0 0;
+    font-family: var(--display);
+    font-size: 60px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+  .cover-line em { font-style: normal; color: var(--cobalt); }
+  .foot-note {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .foot-note b {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* 02 — positioning. */
+  .index { justify-content: space-between; }
+  .index-letter {
+    margin-top: 6px;
+    font-family: var(--display);
+    font-size: 178px;
+    font-weight: 800;
+    letter-spacing: -0.075em;
+    line-height: 0.8;
+    color: var(--butter);
+  }
+  .index p {
+    margin: 24px 0 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: rgb(243 236 223 / 0.68);
+  }
+  .index-stamp {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(243 236 223 / 0.55);
+  }
+  .index-stamp svg { width: 44px; height: 44px; }
+
+  /* 03 — construction. */
+  .construction .stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 1;
+  }
+  .construction .wrap { position: relative; width: 294px; height: 294px; }
+  .construction .wrap > svg { width: 100%; height: 100%; }
+  .construction .guides { position: absolute; inset: 0; }
+  .construction p {
+    max-width: 370px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .construction .specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 14px;
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .construction .specs b { color: var(--ink); font-weight: 500; }
+
+  /* 04 — navbar application. */
+  .navbar .browser {
+    margin-top: 20px;
+    overflow: hidden;
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    background: var(--paper-hi);
+    box-shadow: 6px 7px 0 rgb(25 26 46 / 0.13);
+  }
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 13px;
+    border-bottom: 1.5px solid rgb(25 26 46 / 0.13);
+    background: var(--paper);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+  }
+  .dots { display: flex; gap: 5px; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: rgb(25 26 46 / 0.22); }
+  .chrome .url { flex: 1; text-align: center; }
+  .realnav { display: flex; align-items: center; gap: 16px; padding: 15px 18px; }
+  .realbrand { display: flex; align-items: center; gap: 9px; }
+  .realbrand svg { width: 38px; height: 38px; }
+  .realbrand .names { display: flex; flex-direction: column; gap: 3px; }
+  .realbrand b {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .realbrand span {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .links {
+    display: flex;
+    gap: 13px;
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 11px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--cobalt);
+    color: var(--paper-hi);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .navbar .measure {
+    margin-top: 17px;
+    padding-top: 13px;
+    border-top: 1px solid rgb(25 26 46 / 0.16);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .navbar .caption {
+    margin: 10px 0 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  /* 05 — colour. */
+  .colour .swatches {
+    display: flex;
+    flex-direction: column;
+    margin-top: 18px;
+  }
+  .colour .row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 15px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgb(25 26 46 / 0.12);
+  }
+  .colour .row:last-child { border-bottom: 0; }
+  .chip { width: 44px; height: 44px; border: 1.5px solid var(--ink); border-radius: 9px; }
+  .name {
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .name small {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .role {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+  .colour .note {
+    margin: auto 0 0;
+    padding-top: 16px;
+    border-top: 1px solid rgb(25 26 46 / 0.16);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .colour .note b { color: var(--ink); font-weight: 500; }
+
+  /* 06 — type. */
+  .type .specimen {
+    margin: 30px 0 0;
+    font-family: var(--display);
+    font-size: 104px;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+  }
+  .type .rows { margin-top: auto; border-top: 1px solid rgb(25 26 46 / 0.16); }
+  .type .row {
+    display: grid;
+    grid-template-columns: 68px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid rgb(25 26 46 / 0.12);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .type .row b {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--ink);
+  }
+
+  /* 07 — icon application. */
+  .icon { justify-content: flex-start; }
+  .icon .tab {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    align-self: flex-start;
+    margin-top: 26px;
+    padding: 9px 14px 9px 10px;
+    border: 1px solid rgb(25 26 46 / 0.16);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    background: var(--paper-hi);
+    font-size: 11px;
+  }
+  .icon .tab svg { width: 16px; height: 16px; }
+  .icon .tab i { font-style: normal; font-size: 12px; color: var(--muted); margin-left: 10px; }
+  .icon .sizes { display: flex; align-items: flex-end; gap: 24px; margin-top: 20px; }
+  .icon .size {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    opacity: 0.75;
+  }
+  .icon .sticker {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: auto;
+  }
+  .icon .caption { max-width: 250px; margin: 0; font-size: 14px; line-height: 1.5; opacity: 0.7; }
+  .icon .sticker-chip {
+    display: grid;
+    place-items: center;
+    width: 142px;
+    height: 142px;
+    flex: none;
+    border: 1.5px solid var(--ink);
+    border-radius: 16px;
+    background: var(--paper-hi);
+    transform: rotate(-5deg);
+    box-shadow: 5px 6px 0 rgb(25 26 46 / 0.16);
+  }
+  .icon .sticker-chip svg { width: 104px; height: 104px; }
+
+  /* 08 — marks / cast. */
+  .marks-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--cobalt);
+    color: var(--paper-hi);
+  }
+  .marks-panel::after {
+    opacity: 0.12;
+    background-image: radial-gradient(circle, var(--paper-hi) 1.1px, transparent 1.2px);
+    background-size: 9px 9px;
+  }
+  .marks-panel .kicker { color: var(--paper-hi); opacity: 0.7; }
+  .marks-panel .mp-head {
+    position: relative;
+    z-index: 2;
+    margin-top: 22px;
+    font-family: var(--display);
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+  .marks-panel .mp-cast {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .marks-panel .mp-tile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 7px;
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    background: var(--paper-hi);
+    color: var(--ink);
+  }
+  .marks-panel .mp-tile svg { width: 30px; height: 30px; flex: none; }
+  .marks-panel .mp-tile b {
+    display: block;
+    font-family: var(--display);
+    font-size: 13px;
+    letter-spacing: -0.02em;
+  }
+  .marks-panel .mp-tile span {
+    display: block;
+    color: var(--muted);
+    font-size: 10.5px;
+    line-height: 1.25;
+  }
+  .marks-panel .mp-rule {
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid rgb(255 255 255 / 0.2);
+    color: var(--paper-hi);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    line-height: 1.45;
+    opacity: 0.72;
+    text-transform: uppercase;
+  }
+
+  .board-foot {
+    position: absolute;
+    left: 54px;
+    right: 54px;
+    bottom: 26px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(243 236 223 / 0.5);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="board">
+  <div class="grid">
+
+    <!-- 01 — COVER. Replace the mark, name and line. -->
+    <section class="panel hi cover">
+      <div class="kicker"><span>Brand kit — starter</span><span><b>01</b> / 08</span></div>
+      <div>
+        <div class="cover-lockup">
+          <!-- Placeholder mark: replace with the real SVG. -->
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6" />
+            <circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6" />
+            <path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <!-- Replace this live text with the outlined wordmark. -->
+          <div class="wordmark">northside</div>
+        </div>
+        <p class="cover-line">A system with<br /><em>a point of view.</em></p>
+      </div>
+      <div class="foot-note">
+        <div><b>Placeholder brand</b>Jakarta · 2026</div>
+        <div style="text-align: right"><b>Version</b>1.0</div>
+      </div>
+    </section>
+
+    <!-- 02 — POSITIONING. -->
+    <section class="panel ink index">
+      <div class="kicker"><span>The idea</span><span><b>02</b> / 08</span></div>
+      <div>
+        <div class="index-letter">N</div>
+        <p>One paper, one loud field, one mark. Replace this with the brand's positioning in one short paragraph.</p>
+      </div>
+      <div class="index-stamp">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6" />
+          <circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6" />
+          <path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>Replace the mark</span>
+      </div>
+    </section>
+
+    <!-- 03 — CONSTRUCTION. -->
+    <section class="panel paper construction">
+      <div class="kicker"><span>Construction</span><span><b>03</b> / 08</span></div>
+      <div class="stage">
+        <div class="wrap">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6" />
+            <circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6" />
+            <path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <svg class="guides" viewBox="-9 -9 82 82" fill="none" aria-hidden="true">
+            <rect x="0" y="0" width="64" height="64" stroke="#191a2e" stroke-opacity=".34" stroke-dasharray="1.6 1.6" stroke-width=".55" />
+            <line x1="32" y1="-4" x2="32" y2="68" stroke="#191a2e" stroke-opacity=".22" stroke-width=".4" stroke-dasharray="1 1.4" />
+            <line x1="-4" y1="32" x2="68" y2="32" stroke="#191a2e" stroke-opacity=".22" stroke-width=".4" stroke-dasharray="1 1.4" />
+            <circle cx="32" cy="32" r="15" stroke="#3d53d6" stroke-opacity=".55" stroke-width=".45" />
+            <circle cx="32" cy="32" r="32" stroke="#ff6a2b" stroke-opacity=".45" stroke-width=".4" stroke-dasharray="1 1.4" />
+            <circle cx="32" cy="32" r="1.4" fill="#ff6a2b" />
+          </svg>
+        </div>
+      </div>
+      <p>Replace this with the mark's construction: grid, tile, radius, rays, offsets. State the numbers, not the vibe.</p>
+      <div class="specs"><span><b>64</b> grid</span><span><b>16</b> radius</span><span><b>12</b> rays</span><span><b>2.5</b> offset</span></div>
+    </section>
+
+    <!-- 04 — DIGITAL APPLICATION. -->
+    <section class="panel hi navbar">
+      <div class="kicker"><span>Application — navbar</span><span><b>04</b> / 08</span></div>
+      <div class="browser">
+        <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">your.domain</span><span>↗</span></div>
+        <div class="realnav">
+          <div class="realbrand">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6" />
+              <circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6" />
+              <path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <!-- Live text here is a starter; a real lockup uses the outlined wordmark. -->
+            <div class="names"><b>northside</b><span>Your name</span></div>
+          </div>
+          <div class="links"><span>Work</span><span>About</span><span>Contact</span></div>
+          <div class="cta">Say hi ↗</div>
+        </div>
+      </div>
+      <div class="measure">34 mark · 10 gap · 25 wordmark · 8.5 name</div>
+      <p class="caption">The real navbar proportions. Replace the labels; keep the lockup rhythm.</p>
+    </section>
+
+    <!-- 05 — COLOUR. -->
+    <section class="panel paper colour">
+      <div class="kicker"><span>Colour</span><span><b>05</b> / 08</span></div>
+      <div class="swatches">
+        <div class="row"><span class="chip" style="background: var(--paper)"></span><span class="name">Paper<small>#f3ecdf</small></span><span class="role">The room</span></div>
+        <div class="row"><span class="chip" style="background: var(--ink)"></span><span class="name">Ink<small>#191a2e</small></span><span class="role">Type + edges</span></div>
+        <div class="row"><span class="chip" style="background: var(--cobalt)"></span><span class="name">Cobalt<small>#3d53d6</small></span><span class="role">One loud field</span></div>
+        <div class="row"><span class="chip" style="background: var(--butter)"></span><span class="name">Butter<small>#ffd23f</small></span><span class="role">Sun + focus</span></div>
+        <div class="row"><span class="chip" style="background: var(--tangerine)"></span><span class="name">Tangerine<small>#ff6a2b</small></span><span class="role">Annotation</span></div>
+      </div>
+      <p class="note"><b>One loud field at a time.</b> Check the contrast pairs; accents are not body text.</p>
+    </section>
+
+    <!-- 06 — TYPE. -->
+    <section class="panel hi type">
+      <div class="kicker"><span>Type</span><span><b>06</b> / 08</span></div>
+      <p class="specimen">north<br /><em style="font-style: normal; color: var(--cobalt)">side</em></p>
+      <div class="rows">
+        <div class="row"><span>Display</span><b>Syne 800</b><span>−0.05em</span></div>
+        <div class="row"><span>Reading</span><b>Geist 400</b><span>16 / 1.7</span></div>
+        <div class="row"><span>Label</span><b>Geist Mono 500</b><span>0.14em</span></div>
+      </div>
+    </section>
+
+    <!-- 07 — ICON APPLICATION. -->
+    <section class="panel butter icon">
+      <div class="kicker"><span>Application — icon</span><span><b>07</b> / 08</span></div>
+      <div class="tab">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6" />
+          <circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6" />
+          <path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>Your brand — Site</span><i>×</i>
+      </div>
+      <div class="sizes">
+        <div class="size"><svg class="mark" width="66" height="66" viewBox="0 0 64 64" aria-hidden="true"><rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6"/><circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6"/><path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>180 APP</span></div>
+        <div class="size"><svg width="42" height="42" viewBox="0 0 64 64" aria-hidden="true"><rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6"/><circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6"/><path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>32</span></div>
+        <div class="size"><svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect x="3" y="3" width="58" height="58" rx="16" fill="#3d53d6" stroke="#191a2e" stroke-width="2.6"/><circle cx="32" cy="32" r="15" fill="#ffd23f" stroke="#191a2e" stroke-width="2.6"/><path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>16</span></div>
+      </div>
+      <div class="sticker">
+        <p class="caption">The compact mark for 16–24px: no shadow, fewer details, a larger core.</p>
+        <div class="sticker-chip">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="18" fill="#ffd23f" stroke="#191a2e" stroke-width="3.2" />
+            <path d="M24 38V26l16 12V26" fill="none" stroke="#191a2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <g stroke="#191a2e" stroke-width="3.2" stroke-linecap="round">
+              <line x1="32" y1="10" x2="32" y2="3" /><line x1="54" y1="32" x2="61" y2="32" />
+              <line x1="32" y1="54" x2="32" y2="61" /><line x1="10" y1="32" x2="3" y2="32" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 — MARKS / CAST. Replace the tiles with the brand's drawn cast. -->
+    <section class="panel cobalt marks-panel">
+      <div class="kicker"><span>The cast</span><span><b>08</b> / 08</span></div>
+      <p class="mp-head">One cut line.<br />Six small marks.</p>
+      <div class="mp-cast">
+        <div class="mp-tile">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6L38 26L58 32L38 38L32 58L26 38L6 32L26 26Z" fill="var(--butter)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+          <div><b>Spark</b><span>celebrate</span></div>
+        </div>
+        <div class="mp-tile">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 50A26 26 0 0 1 58 50V58H6Z" fill="var(--butter)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+          <div><b>Arc</b><span>welcome</span></div>
+        </div>
+        <div class="mp-tile">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4L38 24L58 18L44 32L58 46L38 40L32 60L26 40L6 46L20 32L6 18L26 24Z" fill="var(--butter)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+          <div><b>Burst</b><span>a loud note</span></div>
+        </div>
+        <div class="mp-tile">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M4 32Q32 8 60 32Q32 56 4 32Z" fill="var(--butter)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/><circle cx="32" cy="32" r="8" fill="var(--ink)"/></svg>
+          <div><b>Eye</b><span>attention</span></div>
+        </div>
+        <div class="mp-tile">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6C32 6 52 28 52 40A20 20 0 0 1 12 40C12 28 32 6 32 6Z" fill="var(--butter)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+          <div><b>Drop</b><span>material</span></div>
+        </div>
+        <div class="mp-tile">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 4L14 36H30L26 60L48 26H34Z" fill="var(--butter)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+          <div><b>Bolt</b><span>energy</span></div>
+        </div>
+      </div>
+      <p class="mp-rule">Punctuation, not structure. Four to six per composition.</p>
+    </section>
+
+  </div>
+  <div class="board-foot"><span>Brand kit — starter</span><span>Your name / 2026</span></div>
+</div>
+</body>
+</html>

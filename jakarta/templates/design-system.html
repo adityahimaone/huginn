@@ -1,0 +1,1443 @@
+<!doctype html>
+<!--
+  Design-system specimen — a universal single-page scaffold.
+  For a case-study route, use case-page.tsx; for a simple mockup, single-page.html.
+  Structure follows the /sunnyside system page: topbar → contents → hero →
+  foundation → material → marks → colour → type → parts → motion → voice →
+  applications → tokens → audit.
+
+  Replace the tokens, copy, mark SVGs and font stacks. The page is a specimen,
+  not a marketing landing page. No build step; one file.
+-->
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System — Design system</title>
+    <meta
+      name="description"
+      content="A design-system specimen: foundations, material, marks, colour, type, parts, motion, voice, applications and tokens."
+    />
+    <script>
+      // Set the theme before paint. Keep this tiny and fail-safe.
+      try {
+        const saved = localStorage.getItem('ds-theme')
+        if (saved) document.documentElement.dataset.theme = saved
+      } catch {}
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --surface: #f4f1ea;
+        --surface-raised: #fffdf8;
+        --surface-sunken: #e9e4d8;
+        --ink: #17181c;
+        --muted: #62636b;
+        --line: rgb(23 24 28 / 0.14);
+        --accent: #3d53d6;
+        --accent-ink: #fffdf8;
+        --accent-soft: #e8ebff;
+        --focus: #ffcf3f;
+        --danger: #b42318;
+        --success: #177245;
+        --material: rgb(255 255 255 / 0.62);
+        --material-edge: rgb(255 255 255 / 0.55);
+        --material-blur: 16px;
+        --radius-xs: 6px;
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+        --topbar-h: 64px;
+        --display: 'System Display', ui-sans-serif, system-ui, sans-serif;
+        --reading: 'System Text', ui-sans-serif, system-ui, sans-serif;
+        --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+        --ease: cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      [data-theme='dark'] {
+        color-scheme: dark;
+        --surface: #0e0f12;
+        --surface-raised: #17191e;
+        --surface-sunken: #090a0c;
+        --ink: #f2f3f5;
+        --muted: #a7a9b0;
+        --line: rgb(255 255 255 / 0.14);
+        --accent: #8ea2ff;
+        --accent-ink: #0e0f12;
+        --accent-soft: #1b2140;
+        --focus: #ffcf3f;
+        --danger: #ff8a80;
+        --success: #7ee2b8;
+        --material: rgb(23 25 30 / 0.58);
+        --material-edge: rgb(255 255 255 / 0.18);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--surface);
+        color: var(--ink);
+        font-family: var(--reading);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      button, input, select, textarea { font: inherit; }
+      :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+      ::selection { background: var(--accent); color: var(--accent-ink); }
+
+      .skip {
+        position: fixed;
+        top: -100px;
+        left: 1rem;
+        z-index: 100;
+        padding: 0.6rem 0.8rem;
+        background: var(--focus);
+        color: #17181c;
+        border-radius: var(--radius-xs);
+      }
+      .skip:focus { top: 0.75rem; }
+
+      .shell {
+        width: min(1180px, 100% - 2.5rem);
+        margin-inline: auto;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        border-bottom: 1px solid var(--line);
+        background: var(--material);
+        -webkit-backdrop-filter: blur(var(--material-blur)) saturate(1.3);
+        backdrop-filter: blur(var(--material-blur)) saturate(1.3);
+      }
+      @supports not (backdrop-filter: blur(1px)) {
+        .topbar { background: var(--surface); }
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        min-height: var(--topbar-h);
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        text-decoration: none;
+        min-width: 0;
+      }
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        flex: 0 0 auto;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+      .brand-words { display: grid; line-height: 1.15; min-width: 0; }
+      .brand-words b {
+        font-family: var(--display);
+        font-size: 0.95rem;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .brand-words span {
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .top-actions { display: flex; align-items: center; gap: 0.45rem; }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        min-height: 40px;
+        padding: 0 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface-raised);
+        color: var(--ink);
+        text-decoration: none;
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 150ms var(--ease), border-color 150ms var(--ease);
+      }
+      .button:hover { border-color: var(--ink); }
+      .button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--accent-ink);
+      }
+      .button.primary:hover { background: color-mix(in srgb, var(--accent) 86%, black); }
+      .button:disabled { opacity: 0.45; cursor: not-allowed; }
+      .button.small { min-height: 34px; padding-inline: 0.65rem; font-size: 0.6rem; }
+
+      .contents {
+        position: sticky;
+        top: var(--topbar-h);
+        z-index: 40;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface);
+      }
+      .contents-inner {
+        display: flex;
+        gap: 0.2rem;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        padding-block: 0.4rem;
+      }
+      .contents-inner::-webkit-scrollbar { display: none; }
+      .contents a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        min-height: 34px;
+        padding: 0 0.6rem;
+        border-radius: 999px;
+        color: var(--muted);
+        text-decoration: none;
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .contents a span { color: var(--muted); opacity: 0.6; }
+      .contents a[aria-current='true'] { background: var(--accent-soft); color: var(--ink); }
+      .contents a[aria-current='true'] span { opacity: 1; }
+
+      main { overflow: clip; }
+      section { scroll-margin-top: calc(var(--topbar-h) + 52px); }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: clamp(2rem, 6vw, 5rem);
+        align-items: center;
+        padding-block: clamp(3rem, 8vw, 7rem) clamp(2.5rem, 6vw, 5rem);
+      }
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 0.8rem;
+        margin-bottom: 1rem;
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.3rem 0.55rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface-raised);
+        color: var(--ink);
+      }
+      .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 {
+        margin-bottom: 1rem;
+        max-width: 14ch;
+        font-family: var(--display);
+        font-size: clamp(2.8rem, 7vw, 6rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+        text-wrap: balance;
+      }
+      .lede {
+        max-width: 52ch;
+        margin-bottom: 1.4rem;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.4vw, 1.12rem);
+      }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.8rem;
+        margin: 2rem 0 0;
+        padding: 1rem 0 0;
+        border-top: 1px solid var(--line);
+        list-style: none;
+      }
+      .stats b {
+        display: block;
+        font-family: var(--display);
+        font-size: 1.25rem;
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
+      }
+      .stats span {
+        display: block;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        line-height: 1.35;
+      }
+
+      .stage {
+        position: relative;
+        min-height: 420px;
+        display: grid;
+        place-items: center;
+        padding: clamp(1rem, 3vw, 2rem);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background:
+          radial-gradient(circle at 75% 20%, var(--accent-soft), transparent 56%),
+          linear-gradient(145deg, var(--surface-raised), var(--surface-sunken));
+        overflow: hidden;
+      }
+      .stage::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(var(--line) 0.7px, transparent 0.7px);
+        background-size: 12px 12px;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+      .sheet {
+        position: relative;
+        z-index: 1;
+        width: min(100%, 360px);
+        padding: 1rem;
+        border: 1px solid var(--ink);
+        border-radius: 3px;
+        background: var(--surface-raised);
+        box-shadow: 8px 10px 0 var(--line);
+        transform: rotate(-1.2deg);
+      }
+      .sheet-top, .sheet-foot {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.56rem;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .sheet-mark {
+        display: grid;
+        place-items: center;
+        width: 84px;
+        height: 84px;
+        margin: 1.2rem 0 0.9rem;
+        border-radius: 50%;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-family: var(--display);
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.08em;
+      }
+      .sheet-line {
+        margin: 0 0 1rem;
+        font-family: var(--display);
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+      .sheet-foot { align-items: center; }
+      .swatches-mini { display: flex; gap: 3px; }
+      .swatches-mini i { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--line); }
+      .glass-chip {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.45rem 0.6rem;
+        border: 1px solid var(--material-edge);
+        border-radius: 999px;
+        background: var(--material);
+        -webkit-backdrop-filter: blur(12px) saturate(1.4);
+        backdrop-filter: blur(12px) saturate(1.4);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35);
+      }
+
+      .section { padding-block: clamp(3rem, 7vw, 6rem); border-top: 1px solid var(--line); }
+      .section-head { margin-bottom: 2rem; }
+      .head-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .head-meta .rule { width: 42px; height: 1px; background: var(--line); }
+      .head-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 1rem 2rem;
+        align-items: end;
+      }
+      h2 {
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(1.9rem, 4vw, 3.2rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+        text-wrap: balance;
+      }
+      .head-intro { margin: 0; max-width: 52ch; color: var(--muted); }
+
+      .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
+      .card {
+        padding: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface-raised);
+      }
+      .card h3 { margin-bottom: 0.35rem; font-family: var(--display); font-size: 1.05rem; letter-spacing: -0.02em; }
+      .card p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+      .kicker {
+        display: block;
+        margin-bottom: 0.45rem;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .proportions { display: flex; height: 22px; overflow: hidden; border: 1px solid var(--line); border-radius: 999px; margin-top: 1.2rem; }
+      .proportions i { display: block; height: 100%; }
+      .proportion-label {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem 1rem;
+        margin-top: 0.55rem;
+        font-family: var(--mono);
+        font-size: 0.56rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .material-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .material-card {
+        min-height: 220px;
+        padding: 1.2rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface-raised);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+        overflow: hidden;
+        position: relative;
+      }
+      .material-card h3 { margin: 0 0 0.3rem; font-family: var(--display); font-size: 1.1rem; letter-spacing: -0.02em; }
+      .material-card p { margin: 0; color: var(--muted); font-size: 0.86rem; max-width: 42ch; }
+      .material-card .sample {
+        height: 92px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--line);
+      }
+      .sample.glass {
+        background:
+          linear-gradient(135deg, rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.05)),
+          linear-gradient(120deg, var(--accent-soft), var(--surface-sunken));
+        -webkit-backdrop-filter: blur(12px) saturate(1.4);
+        backdrop-filter: blur(12px) saturate(1.4);
+        border-color: var(--material-edge);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 8px 24px rgb(0 0 0 / 0.12);
+      }
+      .sample.dither {
+        background-image:
+          linear-gradient(45deg, var(--ink) 25%, transparent 25% 75%, var(--ink) 75%),
+          linear-gradient(45deg, var(--ink) 25%, transparent 25% 75%, var(--ink) 75%);
+        background-size: 8px 8px;
+        background-position: 0 0, 4px 4px;
+        opacity: 0.55;
+        image-rendering: pixelated;
+      }
+      .material-card .tag {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-family: var(--mono);
+        font-size: 0.55rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .marks-section { background: var(--ink); color: var(--surface); }
+      .marks-section .head-meta, .marks-section .head-intro { color: var(--surface); opacity: 0.62; }
+      .marks-section .rule { background: rgb(255 255 255 / 0.2); }
+
+      .mark-system {
+        border: 1.5px solid var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--surface-raised);
+        color: var(--ink);
+        box-shadow: 8px 9px 0 rgb(0 0 0 / 0.18);
+      }
+      .mark-rail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.8rem 1.1rem;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .mark-logo {
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+        gap: clamp(1rem, 2.4vw, 1.8rem);
+        padding: 1rem;
+      }
+      .mark-stage {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.8rem;
+        min-height: 15rem;
+        padding: clamp(1rem, 2.4vw, 1.6rem);
+        border-radius: var(--radius-sm);
+        background: var(--ink);
+        color: var(--surface);
+      }
+      .mark-clear {
+        display: flex;
+        width: fit-content;
+        align-self: center;
+        gap: 0.8rem;
+        padding: 1.1rem;
+        border: 1px dashed color-mix(in srgb, var(--accent) 72%, transparent);
+        border-radius: 4px;
+      }
+      .mark-lockup { display: flex; align-items: center; gap: 0.7rem; }
+      .mark-lockup > svg { display: block; width: 46px; height: 46px; flex: 0 0 auto; }
+      .mark-wordmark { display: block; width: clamp(6rem, 15vw, 9rem); height: auto; color: inherit; }
+      .mark-stage-note {
+        align-self: center;
+        color: currentColor;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        opacity: 0.6;
+        text-transform: uppercase;
+      }
+      .mark-specs { display: grid; gap: 0.7rem; align-content: start; }
+      .mark-specs dl { display: grid; gap: 0.55rem; margin: 0; }
+      .mark-specs dl > div {
+        display: grid;
+        grid-template-columns: 5.4rem 1fr;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--line);
+      }
+      .mark-specs dt {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .mark-specs dd { margin: 0; font-size: 0.76rem; line-height: 1.4; }
+      .mark-note { margin: 0; color: var(--muted); font-size: 0.76rem; line-height: 1.55; }
+      .mark-icons {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.7rem;
+        padding-top: 0.7rem;
+        border-top: 1px solid var(--line);
+      }
+      .mark-icons svg { display: block; flex: 0 0 auto; }
+      .mark-icons span { margin-left: auto; color: var(--muted); font-family: var(--mono); font-size: 0.55rem; }
+      .mark-actions { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+      .mark-actions a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 1.8rem;
+        padding: 0 0.6rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--ink);
+        font-family: var(--mono);
+        font-size: 0.55rem;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .mark-actions a:hover { border-color: var(--accent); color: var(--accent); }
+      .mark-rules {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding: 0.9rem 1.1rem;
+        border-top: 1px solid var(--line);
+      }
+      .mark-rules p { margin: 0; color: var(--muted); font-size: 0.72rem; line-height: 1.55; }
+      .mark-rules b {
+        margin-right: 0.35rem;
+        color: var(--ink);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .mark-split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .mark-wordmark-card, .mark-cast-card { padding-bottom: 1rem; }
+      .mark-wordmark-stage {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 9rem;
+        margin: 0.9rem 1rem;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        color: var(--ink);
+      }
+      .mark-wordmark-stage .mark-wordmark { width: min(76%, 16rem); }
+      .mark-clear-box {
+        position: absolute;
+        inset: 12% 7%;
+        border: 1px dashed color-mix(in srgb, var(--accent) 70%, transparent);
+        border-radius: 3px;
+        pointer-events: none;
+      }
+      .mark-scale {
+        display: flex;
+        align-items: flex-end;
+        gap: 1.2rem;
+        margin: 0 1rem;
+        padding-top: 0.7rem;
+        border-top: 1px solid var(--line);
+      }
+      .mark-scale > div { display: flex; flex-direction: column; gap: 0.2rem; }
+      .mark-scale span { color: var(--muted); font-family: var(--mono); font-size: 0.55rem; }
+      .mark-cast-intro { margin: 0.9rem 1rem 0; color: var(--muted); font-size: 0.72rem; line-height: 1.55; }
+      .mark-cast {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 0.6rem;
+        margin: 0.9rem 1rem 0;
+      }
+      .mark-cast-tile {
+        display: flex;
+        min-height: 7rem;
+        grid-column: span 4;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.55rem;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+      }
+      .mark-cast-tile:nth-child(4) { grid-column: span 5; }
+      .mark-cast-tile:nth-child(6) { grid-column: span 3; }
+      .mark-cast-tile svg { display: block; width: 100%; max-width: 3.4rem; height: auto; color: var(--ink); }
+      .mark-cast-tile b { display: block; font-family: var(--display); font-size: 0.85rem; letter-spacing: -0.02em; }
+      .mark-cast-tile span { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.62rem; line-height: 1.4; }
+      .mark-rule {
+        max-width: 52rem;
+        margin: 1.5rem 0 0;
+        padding-top: 1rem;
+        border-top: 1px solid rgb(255 255 255 / 0.24);
+        color: var(--surface);
+        font-size: 0.8rem;
+        line-height: 1.55;
+        opacity: 0.72;
+      }
+
+      .swatches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
+      .swatch {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        background: var(--surface-raised);
+      }
+      .swatch-color { height: 84px; border-bottom: 1px solid var(--line); }
+      .swatch-body { padding: 0.7rem; }
+      .swatch-body b { display: block; font-family: var(--display); font-size: 0.9rem; letter-spacing: -0.02em; }
+      .swatch-body code, .swatch-body span {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        color: var(--muted);
+      }
+      .contrast {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        font-size: 0.8rem;
+      }
+      .contrast th, .contrast td { padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--line); text-align: left; }
+      .contrast th { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+      .contrast td:last-child { font-family: var(--mono); font-size: 0.66rem; }
+
+      .type-specimen { display: grid; gap: 1.2rem; }
+      .type-row { display: grid; grid-template-columns: 150px 1fr; gap: 1rem; align-items: baseline; padding-bottom: 0.9rem; border-bottom: 1px solid var(--line); }
+      .type-row .role { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+      .display-sample { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.6rem); line-height: 0.98; letter-spacing: -0.05em; }
+      .heading-sample { font-family: var(--display); font-size: 1.6rem; line-height: 1.1; letter-spacing: -0.03em; }
+      .body-sample { max-width: 62ch; color: var(--muted); }
+      .label-sample { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+      .type-scale {
+        width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.8rem;
+      }
+      .type-scale th, .type-scale td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--line); text-align: left; }
+      .type-scale th { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+      .type-scale code { font-family: var(--mono); font-size: 0.68rem; }
+
+      .parts { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .panel {
+        padding: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface-raised);
+      }
+      .panel h3 { margin: 0 0 0.2rem; font-family: var(--display); font-size: 1rem; letter-spacing: -0.02em; }
+      .panel > p { margin: 0 0 1rem; color: var(--muted); font-size: 0.82rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .field { display: grid; gap: 0.3rem; margin-bottom: 0.7rem; }
+      .field label, .fieldset legend {
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .field input, .field select, .field textarea {
+        width: 100%;
+        min-height: 42px;
+        padding: 0.55rem 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xs);
+        background: var(--surface);
+        color: var(--ink);
+      }
+      .field textarea { min-height: 74px; resize: vertical; }
+      .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+        outline: none;
+      }
+      .field .hint { color: var(--muted); font-size: 0.7rem; }
+      .field .error { color: var(--danger); font-size: 0.72rem; }
+      .fieldset { border: 0; padding: 0; margin: 0 0 0.7rem; }
+      .choice { display: flex; align-items: center; gap: 0.45rem; min-height: 38px; font-size: 0.84rem; }
+      .choice input { width: 17px; height: 17px; accent-color: var(--accent); }
+      .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 42px; }
+      .switch-row span { font-size: 0.84rem; }
+      .switch {
+        appearance: none;
+        width: 44px;
+        height: 26px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface-sunken);
+        position: relative;
+        cursor: pointer;
+        transition: background 150ms var(--ease);
+      }
+      .switch::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--surface-raised);
+        border: 1px solid var(--line);
+        transition: transform 150ms var(--ease);
+      }
+      .switch:checked { background: var(--accent); border-color: var(--accent); }
+      .switch:checked::after { transform: translateX(18px); background: var(--accent-ink); border-color: transparent; }
+      .switch:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+      .error-summary {
+        padding: 0.8rem;
+        border: 1px solid var(--danger);
+        border-radius: var(--radius-xs);
+        background: color-mix(in srgb, var(--danger) 7%, var(--surface-raised));
+        font-size: 0.82rem;
+      }
+      .error-summary b { display: block; margin-bottom: 0.3rem; color: var(--danger); }
+      .error-summary a { color: var(--danger); }
+      .disabled { opacity: 0.5; }
+
+      .motion-table, .voice-table, .audit-table {
+        width: 100%; border-collapse: collapse; font-size: 0.82rem;
+      }
+      .motion-table th, .motion-table td,
+      .voice-table th, .voice-table td,
+      .audit-table th, .audit-table td {
+        padding: 0.6rem 0.65rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top;
+      }
+      .motion-table th, .voice-table th, .audit-table th {
+        font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted);
+      }
+      .motion-table code { font-family: var(--mono); font-size: 0.68rem; }
+      .status { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.05em; text-transform: uppercase; }
+      .status.pass { color: var(--success); }
+      .status.gap { color: var(--danger); }
+
+      .applications { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 1rem; }
+      .app-card {
+        min-height: 240px;
+        padding: 1.2rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface-raised);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1.2rem;
+      }
+      .app-card.dark { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+      .app-card.dark .kicker, .app-card.dark p { color: var(--surface); opacity: 0.68; }
+      .app-card h3 { margin: 0 0 0.4rem; font-family: var(--display); font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1; letter-spacing: -0.04em; }
+      .app-card p { margin: 0; color: var(--muted); font-size: 0.86rem; max-width: 40ch; }
+      .app-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+      .tokens-section { background: var(--ink); color: var(--surface); }
+      .tokens-section .head-meta, .tokens-section .head-intro { color: var(--surface); opacity: 0.62; }
+      .tokens-section .rule { background: rgb(255 255 255 / 0.2); }
+      .token-layers { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-bottom: 1rem; }
+      .token-layers code { padding: 0.3rem 0.45rem; border: 1px solid rgb(255 255 255 / 0.16); border-radius: var(--radius-xs); font-family: var(--mono); font-size: 0.62rem; }
+      .token-layers span { opacity: 0.5; }
+      .code-wrap { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1rem; align-items: start; }
+      .code {
+        margin: 0;
+        padding: 1rem;
+        overflow: auto;
+        border: 1px solid rgb(255 255 255 / 0.16);
+        border-radius: var(--radius-sm);
+        background: rgb(0 0 0 / 0.22);
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        line-height: 1.65;
+        tab-size: 2;
+      }
+      .token-actions { display: grid; gap: 0.6rem; }
+      .token-actions .button { border-color: rgb(255 255 255 / 0.2); background: transparent; color: var(--surface); }
+      .token-actions .button:hover { border-color: var(--surface); }
+      .token-note { color: var(--surface); opacity: 0.62; font-size: 0.8rem; }
+
+      .audit-note { color: var(--muted); font-size: 0.88rem; max-width: 62ch; }
+      .audit-table td:last-child { width: 5rem; }
+
+      .endcap {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 2rem;
+        align-items: center;
+        margin-block: clamp(3rem, 7vw, 6rem);
+        padding: clamp(1.4rem, 4vw, 2.5rem);
+        border-radius: var(--radius-lg);
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+      .endcap h2 { color: inherit; font-size: clamp(1.8rem, 4vw, 3.2rem); }
+      .endcap p { margin: 0.7rem 0 0; max-width: 46ch; opacity: 0.82; }
+      .endcap .button { background: var(--accent-ink); color: var(--accent); border-color: transparent; }
+      .endcap .button.ghost { background: transparent; color: var(--accent-ink); border-color: rgb(255 255 255 / 0.4); }
+      .footer {
+        display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem;
+        padding-block: 1.4rem 2.5rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 900px) {
+        .hero, .head-grid, .code-wrap, .endcap { grid-template-columns: 1fr; }
+        .stage { min-height: 360px; }
+        .sheet { transform: rotate(-0.6deg); }
+        .grid-3, .swatches { grid-template-columns: 1fr 1fr; }
+        .mark-logo, .mark-split, .mark-rules { grid-template-columns: 1fr; }
+        .material-grid, .parts, .applications { grid-template-columns: 1fr; }
+        .head-intro { max-width: 60ch; }
+      }
+      @media (max-width: 620px) {
+        :root { --topbar-h: 58px; }
+        .shell { width: min(100% - 1.5rem, 1180px); }
+        .topbar-inner { gap: 0.5rem; }
+        .brand-words span { display: none; }
+        .top-actions .button:not(.primary):not(#themeToggle) { display: none; }
+        .stats { grid-template-columns: 1fr 1fr; }
+        .grid-3, .swatches { grid-template-columns: 1fr; }
+        .mark-cast-tile, .mark-cast-tile:nth-child(4), .mark-cast-tile:nth-child(6) { grid-column: span 6; }
+        .type-row { grid-template-columns: 1fr; gap: 0.35rem; }
+        .stage { min-height: 320px; }
+        .glass-chip { right: 0.7rem; bottom: 0.7rem; }
+        .endcap { padding: 1.2rem; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition: none !important; animation: none !important; }
+      }
+      @media print {
+        .topbar, .contents, .skip, .glass-chip, .endcap .button { display: none; }
+        body { background: #fff; color: #000; }
+        .section { break-inside: avoid; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#foundation">Skip to the system</a>
+
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <a class="brand" href="#top" aria-label="System, back to top">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span class="brand-words">
+            <b>System</b>
+            <span>design system · v1.0</span>
+          </span>
+        </a>
+        <div class="top-actions">
+          <button class="button small" type="button" id="themeToggle" aria-pressed="false">Dark</button>
+          <button class="button small" type="button" id="copyTokens">Copy tokens</button>
+          <a class="button small primary" href="#tokens">Tokens</a>
+        </div>
+      </div>
+    </header>
+
+    <nav class="contents" aria-label="System sections">
+      <div class="shell contents-inner">
+        <a href="#foundation" aria-current="true"><span>01</span>Foundation</a>
+        <a href="#material"><span>02</span>Material</a>
+        <a href="#marks"><span>03</span>Marks</a>
+        <a href="#colour"><span>04</span>Colour</a>
+        <a href="#type"><span>05</span>Type</a>
+        <a href="#parts"><span>06</span>Parts</a>
+        <a href="#motion"><span>07</span>Motion</a>
+        <a href="#voice"><span>08</span>Voice</a>
+        <a href="#applications"><span>09</span>Applications</a>
+        <a href="#tokens"><span>10</span>Tokens</a>
+        <a href="#audit"><span>11</span>Audit</a>
+      </div>
+    </nav>
+
+    <main>
+      <section id="top" class="shell hero" aria-labelledby="system-title">
+        <div>
+          <div class="meta-row">
+            <span class="pill"><span class="dot" aria-hidden="true"></span>System · v1.0</span>
+            <span>Design system / 2026</span>
+          </div>
+          <h1 id="system-title">One system, every surface.</h1>
+          <p class="lede">
+            A working specimen: foundations, one material, marks, colour, type,
+            parts, motion, voice and tokens. Replace the copy and tokens; keep the
+            structure. It is a reference, not a landing page.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#foundation">Start with the rules</a>
+            <button class="button" type="button" id="copyTokensHero">Copy tokens</button>
+          </div>
+          <ul class="stats" aria-label="System facts">
+            <li><b>3</b><span>type voices</span></li>
+            <li><b>8</b><span>semantic colours</span></li>
+            <li><b>6</b><span>core parts</span></li>
+            <li><b>1</b><span>signature material</span></li>
+          </ul>
+        </div>
+        <div class="stage" aria-label="System sheet">
+          <div class="sheet">
+            <div class="sheet-top"><span>System sheet / 001</span><span>Specimen</span></div>
+            <div class="sheet-mark" aria-hidden="true">S</div>
+            <p class="sheet-line">A quiet surface, a loud edge.</p>
+            <div class="sheet-foot">
+              <span>surface · ink · one accent</span>
+              <span class="swatches-mini" aria-hidden="true">
+                <i style="background: var(--surface)"></i>
+                <i style="background: var(--ink)"></i>
+                <i style="background: var(--accent)"></i>
+                <i style="background: var(--focus)"></i>
+              </span>
+            </div>
+          </div>
+          <span class="glass-chip"><span class="dot" aria-hidden="true"></span>material / glass</span>
+        </div>
+      </section>
+
+      <section id="foundation" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>01</span><span class="rule" aria-hidden="true"></span><span>Foundation</span></div>
+            <div class="head-grid">
+              <h2>Three rules before any component.</h2>
+              <p class="head-intro">The system is a small set of decisions repeated with discipline. If a page needs a fourth rule to explain itself, the first three are not clear enough.</p>
+            </div>
+          </header>
+          <div class="grid-3">
+            <article class="card"><span class="kicker">01 / Surface</span><h3>One ground, one accent.</h3><p>Most of the page is neutral. The accent marks action, not decoration.</p></article>
+            <article class="card"><span class="kicker">02 / Hierarchy</span><h3>One focal point.</h3><p>Size, weight, contrast and space agree on what matters. Everything else steps back.</p></article>
+            <article class="card"><span class="kicker">03 / Restraint</span><h3>One signature.</h3><p>One material, one motion moment, one loud field. Extra effects dilute the system.</p></article>
+          </div>
+          <div class="proportions" role="img" aria-label="Suggested colour proportion: 60% surface, 25% ink, 10% accent, 5% material">
+            <i style="width: 60%; background: var(--surface-raised)"></i>
+            <i style="width: 25%; background: var(--ink)"></i>
+            <i style="width: 10%; background: var(--accent)"></i>
+            <i style="width: 5%; background: var(--focus)"></i>
+          </div>
+          <div class="proportion-label"><span>60 surface</span><span>25 ink</span><span>10 accent</span><span>5 material</span></div>
+        </div>
+      </section>
+
+      <section id="material" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>02</span><span class="rule" aria-hidden="true"></span><span>Material</span></div>
+            <div class="head-grid">
+              <h2>Choose a material, not a filter.</h2>
+              <p class="head-intro">This specimen uses glass as its one signature. Dither is shown as an alternative, not layered on top. Pick one; document the fallback.</p>
+            </div>
+          </header>
+          <div class="material-grid">
+            <article class="material-card">
+              <span class="tag">Signature</span>
+              <div class="sample glass" aria-hidden="true"></div>
+              <div><h3>Glass</h3><p>Translucency, blur and an edge highlight for floating chrome. Keep copy on a solid plate; provide a solid fallback.</p></div>
+            </article>
+            <article class="material-card">
+              <span class="tag">Alternative</span>
+              <div class="sample dither" aria-hidden="true"></div>
+              <div><h3>Dither</h3><p>A two-colour texture for images and atmosphere. Use Bayer for motion, error diffusion for stills; never under body copy.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="marks" class="section marks-section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>03</span><span class="rule" aria-hidden="true"></span><span>Marks</span></div>
+            <div class="head-grid">
+              <h2>A mark, a hand and a cast.</h2>
+              <p class="head-intro">The mark is one drawing; the wordmark is a second drawing in the same hand; the cast is punctuation. Replace the placeholders, keep the four movements: logo card, wordmark scale, cast drawer, one rule.</p>
+            </div>
+          </header>
+
+          <article class="mark-system">
+            <div class="mark-rail"><span>Logo / 01</span><span>mark + wordmark</span></div>
+            <div class="mark-logo">
+              <div class="mark-stage">
+                <div class="mark-clear">
+                  <div class="mark-lockup" role="img" aria-label="Brand lockup placeholder">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                      <path d="M10 4L32 44L54 4L62 8L42 56L22 56L2 8Z" fill="currentColor" />
+                      <rect x="27" y="46" width="10" height="8" fill="var(--accent)" />
+                    </svg>
+                    <svg class="mark-wordmark" viewBox="0 0 160 34" aria-hidden="true">
+                      <path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
+                <span class="mark-stage-note">0.5× clear space / 34px mark</span>
+              </div>
+
+              <div class="mark-specs">
+                <p class="mark-note">The mark is one idea; the wordmark is a second drawing in the same hand. The compact mark is a separate drawing, not a scale-down.</p>
+                <dl>
+                  <div><dt>Header</dt><dd>34 mark · 25 wordmark · 8.5 name</dd></div>
+                  <div><dt>Minimum</dt><dd>24 mark · 16 compact · 130 lockup</dd></div>
+                  <div><dt>Clear space</dt><dd>Half the mark's height</dd></div>
+                  <div><dt>Favicon</dt><dd>16 / 32 / 48 · 180 apple</dd></div>
+                </dl>
+                <div class="mark-icons" aria-label="Favicon sizes">
+                  <svg width="48" height="48" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor"/><path d="M12 6L32 42L52 6L61 12L42 58L22 58L3 12Z" fill="var(--surface)"/></svg>
+                  <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor"/><path d="M12 6L32 42L52 6L61 12L42 58L22 58L3 12Z" fill="var(--surface)"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor"/><path d="M12 6L32 42L52 6L61 12L42 58L22 58L3 12Z" fill="var(--surface)"/></svg>
+                  <span>48 / 32 / 16</span>
+                </div>
+                <div class="mark-actions"><a href="#">Lockup SVG</a><a href="#">Brand kit</a></div>
+              </div>
+            </div>
+            <div class="mark-rules">
+              <p><b>Do</b> Keep the mark, the hand and the cast in one material. Let the wordmark inherit the ink.</p>
+              <p><b>Don't</b> Recolour the subject, stretch the lockup, soften the offset, or use the cast as structure.</p>
+            </div>
+          </article>
+
+          <div class="mark-split">
+            <article class="mark-system mark-wordmark-card">
+              <div class="mark-rail"><span>Wordmark / 02</span><span>drawn, not typeset</span></div>
+              <div class="mark-wordmark-stage">
+                <svg class="mark-wordmark" viewBox="0 0 160 34" role="img" aria-label="Wordmark placeholder">
+                  <path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" />
+                </svg>
+                <span class="mark-clear-box" aria-hidden="true"></span>
+              </div>
+              <div class="mark-scale">
+                <div><svg class="mark-wordmark" viewBox="0 0 160 34" style="width:4rem" aria-hidden="true"><path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" /></svg><span>40</span></div>
+                <div><svg class="mark-wordmark" viewBox="0 0 160 34" style="width:2.5rem" aria-hidden="true"><path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" /></svg><span>24</span></div>
+                <div><svg class="mark-wordmark" viewBox="0 0 160 34" style="width:1.7rem" aria-hidden="true"><path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" /></svg><span>16</span></div>
+              </div>
+              <p class="mark-note" style="margin: 0.7rem 1rem 0">Use the hand for the name and short asides. If it needs more than three words, it belongs in the reading face.</p>
+            </article>
+
+            <article class="mark-system mark-cast-card">
+              <div class="mark-rail"><span>Cast / 03</span><span>one cut line, one fill</span></div>
+              <p class="mark-cast-intro">Four to six marks, each with one job. The cast is punctuation: never structure, never the only place a fact lives.</p>
+              <div class="mark-cast">
+                <div class="mark-cast-tile"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6L38 26L58 32L38 38L32 58L26 38L6 32L26 26Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg><div><b>Spark</b><span>A small celebration</span></div></div>
+                <div class="mark-cast-tile"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 50A26 26 0 0 1 58 50V58H6Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg><div><b>Arc</b><span>A welcome</span></div></div>
+                <div class="mark-cast-tile"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4L38 24L58 18L44 32L58 46L38 40L32 60L26 40L6 46L20 32L6 18L26 24Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg><div><b>Burst</b><span>A loud note, never a headline</span></div></div>
+                <div class="mark-cast-tile"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M4 32Q32 8 60 32Q32 56 4 32Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/><circle cx="32" cy="32" r="8" fill="var(--ink)"/></svg><div><b>Eye</b><span>Attention, used once</span></div></div>
+                <div class="mark-cast-tile"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6C32 6 52 28 52 40A20 20 0 0 1 12 40C12 28 32 6 32 6Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg><div><b>Drop</b><span>A material detail</span></div></div>
+                <div class="mark-cast-tile"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 4L14 36H30L26 60L48 26H34Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="3.2" stroke-linejoin="round"/></svg><div><b>Bolt</b><span>A little energy</span></div></div>
+              </div>
+            </article>
+          </div>
+
+          <p class="mark-rule">One rule: the cast is punctuation. Never structure, never the only place a fact lives, never over type. Four to six per composition is plenty.</p>
+        </div>
+      </section>
+
+      <section id="colour" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>04</span><span class="rule" aria-hidden="true"></span><span>Colour</span></div>
+            <div class="head-grid">
+              <h2>Roles, not hexes.</h2>
+              <p class="head-intro">A neutral ramp and one accent. Status colours exist only where the interface renders them. Measure the rendered pair; a token that is merely close is not a token.</p>
+            </div>
+          </header>
+          <div class="swatches">
+            <div class="swatch"><div class="swatch-color" style="background: var(--surface)"></div><div class="swatch-body"><b>Surface</b><code>--surface</code><span>page ground</span></div></div>
+            <div class="swatch"><div class="swatch-color" style="background: var(--surface-raised)"></div><div class="swatch-body"><b>Raised</b><code>--surface-raised</code><span>cards, panels</span></div></div>
+            <div class="swatch"><div class="swatch-color" style="background: var(--ink)"></div><div class="swatch-body"><b>Ink</b><code>--ink</code><span>text, edges</span></div></div>
+            <div class="swatch"><div class="swatch-color" style="background: var(--muted)"></div><div class="swatch-body"><b>Muted</b><code>--muted</code><span>secondary text</span></div></div>
+            <div class="swatch"><div class="swatch-color" style="background: var(--accent)"></div><div class="swatch-body"><b>Accent</b><code>--accent</code><span>one action</span></div></div>
+            <div class="swatch"><div class="swatch-color" style="background: var(--focus)"></div><div class="swatch-body"><b>Focus</b><code>--focus</code><span>focus ring</span></div></div>
+          </div>
+          <table class="contrast">
+            <caption class="kicker" style="text-align: left">Rendered pairs to measure</caption>
+            <thead><tr><th scope="col">Pair</th><th scope="col">Role</th><th scope="col">Target</th></tr></thead>
+            <tbody>
+              <tr><td><code>--ink</code> on <code>--surface</code></td><td>body</td><td>≥ 4.5:1</td></tr>
+              <tr><td><code>--muted</code> on <code>--surface</code></td><td>secondary</td><td>≥ 4.5:1</td></tr>
+              <tr><td><code>--accent-ink</code> on <code>--accent</code></td><td>button</td><td>≥ 4.5:1</td></tr>
+              <tr><td><code>--focus</code> on <code>--surface</code></td><td>focus ring</td><td>≥ 3:1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="type" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>05</span><span class="rule" aria-hidden="true"></span><span>Type</span></div>
+            <div class="head-grid">
+              <h2>Three voices, one scale.</h2>
+              <p class="head-intro">Display carries the point of view; reading carries the content; mono carries metadata. Replace the stacks with the real faces and document the licence.</p>
+            </div>
+          </header>
+          <div class="type-specimen">
+            <div class="type-row"><span class="role">Display</span><span class="display-sample">Make it feel inevitable.</span></div>
+            <div class="type-row"><span class="role">Heading</span><span class="heading-sample">A system is a promise repeated.</span></div>
+            <div class="type-row"><span class="role">Reading</span><p class="body-sample">Body copy sits at a comfortable measure, with unitless leading and enough contrast to read for a long time. Keep paragraphs under 75 characters.</p></div>
+            <div class="type-row"><span class="role">Label</span><span class="label-sample">Section / 05 · Type</span></div>
+          </div>
+          <table class="type-scale">
+            <thead><tr><th scope="col">Token</th><th scope="col">Size</th><th scope="col">Leading</th><th scope="col">Use</th></tr></thead>
+            <tbody>
+              <tr><td><code>--text-display</code></td><td><code>clamp(2.8rem, 7vw, 6rem)</code></td><td>0.92</td><td>hero only</td></tr>
+              <tr><td><code>--text-h2</code></td><td><code>clamp(1.9rem, 4vw, 3.2rem)</code></td><td>0.98</td><td>section title</td></tr>
+              <tr><td><code>--text-body</code></td><td><code>1rem</code></td><td>1.6</td><td>reading</td></tr>
+              <tr><td><code>--text-label</code></td><td><code>0.66rem</code></td><td>1.2</td><td>metadata, tracked</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="parts" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>06</span><span class="rule" aria-hidden="true"></span><span>Parts</span></div>
+            <div class="head-grid">
+              <h2>The parts are the proof.</h2>
+              <p class="head-intro">Buttons, fields, selection, feedback. Six primitives are enough to judge a system; twenty variants are a distraction. Every state is visible.</p>
+            </div>
+          </header>
+          <div class="parts">
+            <div class="panel">
+              <h3>Actions</h3>
+              <p>One filled primary per view; secondary and ghost stay quiet.</p>
+              <div class="row">
+                <button class="button primary" type="button">Save changes</button>
+                <button class="button" type="button">Preview</button>
+                <button class="button" type="button" disabled>Disabled</button>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Selection</h3>
+              <p>Native inputs, styled by tokens. Labels are always visible.</p>
+              <fieldset class="fieldset">
+                <legend>Notifications</legend>
+                <label class="choice"><input type="radio" name="notify" checked /> All activity</label>
+                <label class="choice"><input type="radio" name="notify" /> Mentions only</label>
+              </fieldset>
+              <div class="switch-row"><span>Weekly digest</span><input class="switch" type="checkbox" role="switch" aria-label="Weekly digest" checked /></div>
+            </div>
+            <div class="panel">
+              <h3>Fields</h3>
+              <p>Label, hint, error. The error is linked, not just coloured.</p>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" autocomplete="email" value="not-an-email" aria-invalid="true" aria-describedby="email-error" />
+                <span class="error" id="email-error">Enter a valid email address.</span>
+              </div>
+              <div class="field">
+                <label for="role">Role</label>
+                <select id="role"><option>Design engineer</option><option>Product designer</option><option>Frontend engineer</option></select>
+                <span class="hint">Used for the example, not stored.</span>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Feedback</h3>
+              <p>An error summary takes focus; the field keeps its value.</p>
+              <div class="error-summary" role="alert" tabindex="-1"><b>2 fields need attention.</b><a href="#email">Email: enter a valid address.</a></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="motion" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>07</span><span class="rule" aria-hidden="true"></span><span>Motion</span></div>
+            <div class="head-grid">
+              <h2>Motion has a job.</h2>
+              <p class="head-intro">Feedback is fast; entrances are short; exits are shorter. If the interaction happens hundreds of times a day, it does not animate.</p>
+            </div>
+          </header>
+          <table class="motion-table">
+            <thead><tr><th scope="col">Role</th><th scope="col">Duration</th><th scope="col">Easing</th><th scope="col">Use</th></tr></thead>
+            <tbody>
+              <tr><td>Press</td><td><code>150ms</code></td><td><code>ease-out</code></td><td>button feedback</td></tr>
+              <tr><td>Popover</td><td><code>160ms</code></td><td><code>cubic-bezier(.2,0,0,1)</code></td><td>menus, tooltips</td></tr>
+              <tr><td>Dialog</td><td><code>240ms</code></td><td><code>ease-out</code></td><td>modal, sheet</td></tr>
+            </tbody>
+          </table>
+          <p class="audit-note" style="margin-top: 1rem">Under <code>prefers-reduced-motion: reduce</code>, keep the finished state and remove movement. No state may be carried by motion alone.</p>
+        </div>
+      </section>
+
+      <section id="voice" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>08</span><span class="rule" aria-hidden="true"></span><span>Voice</span></div>
+            <div class="head-grid">
+              <h2>Write like a person.</h2>
+              <p class="head-intro">Plain verbs, sentence case, no filler. An error says what happened and how to recover; an empty state offers one action.</p>
+            </div>
+          </header>
+          <table class="voice-table">
+            <thead><tr><th scope="col">Say</th><th scope="col">Not</th><th scope="col">Why</th></tr></thead>
+            <tbody>
+              <tr><td>Save changes</td><td>Submit</td><td>The action names the result.</td></tr>
+              <tr><td>Enter a valid email address.</td><td>Invalid input.</td><td>The error names the recovery.</td></tr>
+              <tr><td>No projects yet. Create one.</td><td>Nothing here.</td><td>Empty states point forward.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="applications" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>09</span><span class="rule" aria-hidden="true"></span><span>Applications</span></div>
+            <div class="head-grid">
+              <h2>Compositions, not screenshots.</h2>
+              <p class="head-intro">Two small proofs built from the same tokens. Replace them with the real surfaces; keep the difference in density and material.</p>
+            </div>
+          </header>
+          <div class="applications">
+            <article class="app-card dark">
+              <div><span class="kicker">01 / Launch</span><h3>Depth without fog.</h3><p>A dark plate, one accent, a single glass chip. The content stays on solid ground.</p></div>
+              <div class="app-row"><span>Surface · ink · accent</span><span>1440 / 390</span></div>
+            </article>
+            <article class="app-card">
+              <div><span class="kicker">02 / Product</span><h3>Quiet by default.</h3><p>Neutral surfaces, a clear action and a compact data row. The accent appears once.</p></div>
+              <div class="app-row"><span>Surface · raised · accent</span><span>1 action</span></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="tokens" class="section tokens-section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>10</span><span class="rule" aria-hidden="true"></span><span>Tokens</span></div>
+            <div class="head-grid">
+              <h2>One source, three layers.</h2>
+              <p class="head-intro">Primitive → semantic → component. Components read roles, never raw hexes. Export CSS and JSON from the same source.</p>
+            </div>
+          </header>
+          <div class="token-layers"><code>primitives</code><span>→</span><code>semantic</code><span>→</span><code>components</code></div>
+          <div class="code-wrap">
+            <pre class="code" id="token-css" tabindex="0"><code>:root {
+  --surface: #f4f1ea;
+  --surface-raised: #fffdf8;
+  --ink: #17181c;
+  --muted: #62636b;
+  --accent: #3d53d6;
+  --accent-ink: #fffdf8;
+  --focus: #ffcf3f;
+  --radius-sm: 10px;
+  --text-body: 1rem;
+}</code></pre>
+            <div class="token-actions">
+              <button class="button" type="button" id="copyTokensBlock">Copy CSS</button>
+              <!-- point this at the generated tokens.json -->
+              <a class="button" href="/brand/&lt;slug&gt;/&lt;slug&gt;-tokens.json" download>Download JSON</a>
+              <p class="token-note">The JSON should be generated from the same source as this CSS. Do not hand-edit one and not the other.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="audit" class="section">
+        <div class="shell">
+          <header class="section-head">
+            <div class="head-meta"><span>11</span><span class="rule" aria-hidden="true"></span><span>Audit</span></div>
+            <div class="head-grid">
+              <h2>Name what is missing.</h2>
+              <p class="head-intro">A specimen that hides its gaps is a brochure. Keep the table honest and re-run it when the system changes.</p>
+            </div>
+          </header>
+          <table class="audit-table">
+            <thead><tr><th scope="col">Check</th><th scope="col">Evidence</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <tr><td>Mark at 16 / 32 / 64</td><td><code>public/brand/&lt;slug&gt;/</code></td><td><span class="status pass">pass</span></td></tr>
+              <tr><td>Contrast pairs measured</td><td>rendered light + dark</td><td><span class="status pass">pass</span></td></tr>
+              <tr><td>Keyboard + focus</td><td>parts section</td><td><span class="status pass">pass</span></td></tr>
+              <tr><td>Real font files</td><td>replace the system stacks</td><td><span class="status gap">gap</span></td></tr>
+            </tbody>
+          </table>
+          <p class="audit-note" style="margin-top: 1rem">If you could not inspect something, write <strong>Not verified</strong>; do not turn it into a pass.</p>
+        </div>
+      </section>
+
+      <section class="shell endcap" aria-labelledby="endcap-title">
+        <div>
+          <h2 id="endcap-title">Put it to work.</h2>
+          <p>Take the tokens, replace the specimen content, and ship one real surface. The system is only proven when a product uses it.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="button" href="#tokens">Get the tokens</a>
+          <a class="button ghost" href="#foundation">Read the rules</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell footer">
+      <span>System design system · v1.0 · 2026</span>
+      <span>Replace with the real author, licence and source.</span>
+    </footer>
+
+    <script>
+      // Theme: one mechanism, persisted; the head script avoids a flash.
+      const root = document.documentElement
+      const toggle = document.getElementById('themeToggle')
+      const applyTheme = (theme) => {
+        root.dataset.theme = theme
+        const dark = theme === 'dark'
+        toggle.textContent = dark ? 'Light' : 'Dark'
+        toggle.setAttribute('aria-pressed', String(dark))
+        try { localStorage.setItem('ds-theme', theme) } catch {}
+      }
+      applyTheme(root.dataset.theme === 'dark' ? 'dark' : 'light')
+      toggle.addEventListener('click', () => {
+        applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')
+      })
+
+      // Copy tokens: one helper for both buttons.
+      const copy = async (text, button) => {
+        const original = button.textContent
+        try {
+          await navigator.clipboard.writeText(text)
+          button.textContent = 'Copied'
+        } catch {
+          button.textContent = 'Copy failed'
+        }
+        setTimeout(() => { button.textContent = original }, 1400)
+      }
+      const tokenText = document.getElementById('token-css').innerText
+      for (const id of ['copyTokens', 'copyTokensBlock', 'copyTokensHero']) {
+        const button = document.getElementById(id)
+        if (button) button.addEventListener('click', () => copy(tokenText, button))
+      }
+
+      // Contents: active section without a framework.
+      const links = [...document.querySelectorAll('.contents a')]
+      const sections = links.map((link) => document.querySelector(link.getAttribute('href')))
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue
+              for (const link of links) link.removeAttribute('aria-current')
+              const active = links.find((link) => link.getAttribute('href') === `#${entry.target.id}`)
+              if (active) active.setAttribute('aria-current', 'true')
+            }
+          },
+          { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+        )
+        for (const section of sections) if (section) observer.observe(section)
+      }
+    </script>
+  </body>
+</html>

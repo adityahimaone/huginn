@@ -1,0 +1,14 @@
+{
+  "name": "Jakarta design system",
+  "id": "brand-forge-jakarta-mvwf2u64",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  }
+}

@@ -1,0 +1,203 @@
+<!doctype html>
+<!--
+  Single-page brand mockup. For a full system specimen, use design-system.html.
+  Replace the token block, copy, image paths and fonts. No build step.
+  Render at 1440 and 390 with Playwright; keep the source.
+  The same structure can be a brand board, a case page or a system proof.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brand — Case page</title>
+    <style>
+      /* One source. Namespace if the host app owns generic names. */
+      :root {
+        --paper: #f3ecdf;
+        --paper-hi: #fffaf1;
+        --ink: #191a2e;
+        --muted: #5f5b6e;
+        --line: rgb(25 26 46 / 0.16);
+        --accent: #3d53d6;
+        --accent-ink: #fffaf1;
+        --focus: #ffd23f;
+        --r-sm: 8px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --display: 'Your Display', ui-sans-serif, system-ui, sans-serif;
+        --reading: 'Your Reading', ui-sans-serif, system-ui, sans-serif;
+        --mono: ui-monospace, 'SFMono-Regular', monospace;
+      }
+      * { box-sizing: border-box; }
+      html { color-scheme: light; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--reading);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+      .wrap { width: min(1120px, 100% - 2rem); margin-inline: auto; }
+      .nav {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 1rem; padding-block: 1rem; border-bottom: 1.5px solid var(--ink);
+      }
+      .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+      .brand img { width: 34px; height: 34px; display: block; }
+      .brand b { font-family: var(--display); font-size: 1.1rem; letter-spacing: -0.03em; }
+      .links { display: flex; gap: 1rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
+      .links a { text-decoration: none; color: var(--muted); }
+      .links a:hover { color: var(--ink); }
+
+      .hero { display: grid; gap: 2rem; padding-block: clamp(3rem, 8vw, 7rem); }
+      @media (min-width: 900px) { .hero { grid-template-columns: 1.1fr 0.9fr; align-items: center; } }
+      .eyebrow { margin: 0 0 0.8rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+      h1 { margin: 0; font-family: var(--display); font-size: clamp(2.6rem, 6vw, 5.2rem); line-height: 0.94; letter-spacing: -0.055em; text-wrap: balance; }
+      .lead { max-width: 56ch; margin: 1rem 0 0; color: var(--muted); font-size: 1.05rem; }
+      .actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.4rem; }
+      .button {
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        min-height: 48px; padding: 0 1rem;
+        border: 1.5px solid var(--ink); border-radius: 999px;
+        background: var(--accent); color: var(--accent-ink);
+        box-shadow: 3px 3px 0 var(--ink);
+        font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
+        letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+        cursor: pointer;
+      }
+      .button.secondary { background: var(--paper-hi); color: var(--ink); }
+      .button:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--ink); }
+
+      .art { position: relative; border: 1.5px solid var(--ink); border-radius: var(--r-lg); background: var(--paper-hi); box-shadow: 9px 11px 0 var(--line); overflow: hidden; }
+      .art img { display: block; width: 100%; height: auto; }
+      .art figcaption { margin: 0; padding: 0.7rem 0.9rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+      .section { padding-block: clamp(3rem, 7vw, 6rem); border-top: 1.5px solid var(--ink); }
+      .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 1.5rem; }
+      h2 { margin: 0; font-family: var(--display); font-size: clamp(1.7rem, 3.5vw, 2.6rem); line-height: 1; letter-spacing: -0.04em; }
+      .note { margin: 0; max-width: 58ch; color: var(--muted); font-size: 0.95rem; }
+      .grid { display: grid; gap: 1rem; }
+      @media (min-width: 800px) { .grid.three { grid-template-columns: repeat(3, 1fr); } .grid.two { grid-template-columns: repeat(2, 1fr); } }
+      .card { padding: 1.2rem; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper-hi); }
+      .card h3 { margin: 0 0 0.4rem; font-family: var(--display); font-size: 1.15rem; letter-spacing: -0.02em; }
+      .card p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+      .label { display: block; margin-bottom: 0.35rem; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+      .input, .select, .textarea {
+        width: 100%; min-height: 46px; padding: 0.7rem 0.8rem;
+        border: 1px solid var(--line); border-radius: var(--r-sm);
+        background: var(--paper-hi); color: var(--ink);
+        font: inherit;
+      }
+      .textarea { min-height: 100px; resize: vertical; }
+      .input:focus-visible, .select:focus-visible, .textarea:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px rgb(61 83 214 / 0.2); outline: none; }
+      .field { display: grid; gap: 0.35rem; }
+      .row { display: flex; align-items: center; gap: 0.6rem; min-height: 44px; font-size: 0.88rem; }
+      .row input { width: 18px; height: 18px; accent-color: var(--accent); }
+      .switch { position: relative; width: 48px; height: 28px; border: 1px solid var(--line); border-radius: 999px; background: var(--accent); cursor: pointer; }
+      .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-ink); }
+      .tokens { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+      .tokens th, .tokens td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+      .tokens th { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+      .tokens code { font-family: var(--mono); font-size: 0.72rem; }
+      .footer { padding-block: 2rem; border-top: 1.5px solid var(--ink); font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+      @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+    </style>
+  </head>
+  <body>
+    <header class="wrap nav">
+      <a class="brand" href="#top" aria-label="Brand, back to top">
+        <img src="/brand/<slug>/mark.svg" alt="" width="34" height="34" />
+        <b>Brand</b>
+      </a>
+      <nav class="links" aria-label="Case contents">
+        <a href="#case">Case</a>
+        <a href="#material">Material</a>
+        <a href="#forms">Forms</a>
+        <a href="#tokens">Tokens</a>
+      </nav>
+    </header>
+
+    <main class="wrap" id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">Case 01 / Brand system</p>
+          <h1 id="hero-title">One idea, drawn once.</h1>
+          <p class="lead">Replace this with the promise in the audience's words. Keep it to one sentence; the page is the proof, not the pitch.</p>
+          <div class="actions">
+            <a class="button" href="#case">Read the case</a>
+            <a class="button secondary" href="#forms">Try the controls</a>
+          </div>
+        </div>
+        <figure class="art">
+          <img src="/brand/<slug>/<slug>-brandkit.png" alt="The brand kit board" width="1500" height="1125" />
+          <figcaption>Brand kit / render from HTML, not an image model</figcaption>
+        </figure>
+      </section>
+
+      <section class="section" id="case">
+        <div class="section-head">
+          <h2>The case</h2>
+          <p class="note">One material, one loud field, one idea. Replace with the actual constraints and the decision that follows.</p>
+        </div>
+        <div class="grid three">
+          <article class="card"><h3>01 / The idea</h3><p>What the mark means in one sentence, without naming the visual.</p></article>
+          <article class="card"><h3>02 / The rules</h3><p>Colour by role, type by voice, one loud field at a time.</p></article>
+          <article class="card"><h3>03 / The proof</h3><p>The page, the form, the 16px favicon. A system that cannot ship is a moodboard.</p></article>
+        </div>
+      </section>
+
+      <section class="section" id="material">
+        <div class="section-head">
+          <h2>Material</h2>
+          <p class="note">Show the signature effect and the rule that keeps content legible. If there is no effect, delete this section.</p>
+        </div>
+        <div class="grid two">
+          <div class="card" style="background: var(--ink); color: var(--paper-hi)">
+            <h3 style="color: var(--paper-hi)">The dark plate</h3>
+            <p style="color: color-mix(in srgb, var(--paper-hi) 70%, transparent)">Text on a dark surface still needs 4.5:1. Measure it; don't trust the screenshot.</p>
+          </div>
+          <div class="card"><h3>The light surface</h3><p>One palette, used by role. Accents are punctuation, not body copy.</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="forms">
+        <div class="section-head">
+          <h2>Forms</h2>
+          <p class="note">Labels, hints, errors, focus and disabled. One real form proves the system more than twenty cards.</p>
+        </div>
+        <form class="grid two" action="#" method="post">
+          <div class="field"><label class="label" for="name">Name</label><input class="input" id="name" name="name" autocomplete="name" placeholder="Your name" required /></div>
+          <div class="field"><label class="label" for="email">Email</label><input class="input" id="email" name="email" type="email" autocomplete="email" placeholder="you@studio.com" required /></div>
+          <div class="field"><label class="label" for="role">Role</label><select class="select" id="role" name="role"><option>Design engineer</option><option>Product designer</option><option>Frontend engineer</option></select></div>
+          <div class="field"><label class="label" for="message">Message</label><textarea class="textarea" id="message" name="message" placeholder="What are you building?"></textarea></div>
+          <label class="row"><input type="checkbox" name="updates" checked /> Send the field notes</label>
+          <div class="row"><span>Live status</span><button class="switch" type="button" role="switch" aria-checked="true" aria-label="Live status"></button></div>
+          <div class="actions"><button class="button" type="submit">Send request</button><button class="button secondary" type="reset">Reset</button></div>
+        </form>
+      </section>
+
+      <section class="section" id="tokens">
+        <div class="section-head">
+          <h2>Tokens</h2>
+          <p class="note">Primitive → semantic → component. This is a sample; generate the real table from the token source.</p>
+        </div>
+        <table class="tokens">
+          <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Role</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>--paper</code></th><td><code>#f3ecdf</code></td><td>Page ground</td></tr>
+            <tr><th scope="row"><code>--ink</code></th><td><code>#191a2e</code></td><td>Text and edges</td></tr>
+            <tr><th scope="row"><code>--accent</code></th><td><code>#3d53d6</code></td><td>One loud field</td></tr>
+            <tr><th scope="row"><code>--focus</code></th><td><code>#ffd23f</code></td><td>Focus ring</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="footer wrap">
+      <span>Brand 1.0 · 2026 · Replace with the real author and licence.</span>
+    </footer>
+  </body>
+</html>

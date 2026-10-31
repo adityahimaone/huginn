@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marks section — Case 01 pattern</title>
+    <style>
+      /*
+        A copyable marks section. Replace the placeholder SVGs with the brand's
+        drawn mark, wordmark and cast. The section is dark so the paper cards
+        read as objects on a surface; change --ms-stage to the brand's loud field.
+
+        Host tokens are optional. Every fallback is a neutral so the snippet
+        works before the design system exists.
+      */
+      .ms {
+        --ms-ink: var(--ink, #141413);
+        --ms-paper: var(--paper, #f4f1ea);
+        --ms-stage: var(--stage, #141413);
+        --ms-accent: var(--accent, #3d53d6);
+        --ms-muted: var(--muted, #62636b);
+        --ms-line: var(--line, #d8d2c6);
+        --ms-display: var(--display, ui-sans-serif, system-ui, sans-serif);
+        --ms-mono: var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+        --ms-radius: var(--radius-md, 16px);
+        --ms-offset: var(--offset, 6px);
+        --ms-max: 78rem;
+        --ms-pad: clamp(1.25rem, 4vw, 4.5rem);
+
+        margin: 0;
+        padding: clamp(3.5rem, 8vw, 8rem) var(--ms-pad);
+        background: var(--ms-stage);
+        color: var(--ms-paper);
+        font-family: var(--ms-display);
+      }
+      .ms *,
+      .ms *::before,
+      .ms *::after {
+        box-sizing: border-box;
+      }
+      .ms-shell {
+        max-width: var(--ms-max);
+        margin: 0 auto;
+      }
+      .ms-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+        gap: 1.5rem 4rem;
+        align-items: end;
+        margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+      }
+      .ms-kicker {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin: 0;
+        color: var(--ms-paper);
+        font-family: var(--ms-mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.16em;
+        opacity: 0.72;
+        text-transform: uppercase;
+      }
+      .ms-kicker span {
+        color: var(--ms-accent);
+      }
+      .ms-title {
+        max-width: 12ch;
+        margin: 0;
+        font-size: clamp(2.6rem, 5vw, 4.8rem);
+        font-weight: 700;
+        letter-spacing: -0.06em;
+        line-height: 0.94;
+        text-wrap: balance;
+      }
+      .ms-lede {
+        max-width: 46ch;
+        margin: 0 0 0.35rem;
+        color: var(--ms-paper);
+        font-family: var(--ms-display);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.65;
+        opacity: 0.72;
+        text-wrap: pretty;
+      }
+
+      .ms-card {
+        border: 1.5px solid var(--ms-ink);
+        border-radius: var(--ms-radius);
+        background: var(--ms-paper);
+        box-shadow: var(--ms-offset) var(--ms-offset) 0
+          rgb(0 0 0 / 0.17);
+        color: var(--ms-ink);
+      }
+      .ms-rail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid color-mix(in srgb, var(--ms-ink) 24%, transparent);
+        color: var(--ms-muted);
+        font-family: var(--ms-mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .ms-logo {
+        margin: 0 0 1rem;
+      }
+      .ms-logo-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+        gap: clamp(1rem, 2.4vw, 1.8rem);
+        padding: 1rem;
+      }
+      .ms-stage {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.8rem;
+        min-height: 17rem;
+        padding: clamp(1rem, 2.4vw, 1.6rem);
+        border-radius: calc(var(--ms-radius) * 0.65);
+        background: var(--ms-stage);
+        color: var(--ms-paper);
+      }
+      .ms-clear {
+        display: flex;
+        width: fit-content;
+        align-self: center;
+        gap: 0.8rem;
+        padding: 1.1rem;
+        border: 1px dashed color-mix(in srgb, var(--ms-accent) 72%, transparent);
+        border-radius: 4px;
+      }
+      .ms-lockup {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .ms-lockup svg {
+        display: block;
+        width: 48px;
+        height: 48px;
+        flex: 0 0 auto;
+      }
+      .ms-wordmark {
+        display: block;
+        width: clamp(7rem, 16vw, 10rem);
+        height: auto;
+        color: var(--ms-paper);
+      }
+      .ms-stage-note {
+        align-self: center;
+        color: var(--ms-paper);
+        font-family: var(--ms-mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        opacity: 0.6;
+        text-transform: uppercase;
+      }
+      .ms-specs {
+        display: grid;
+        gap: 0.7rem;
+        margin: 0;
+        align-content: start;
+      }
+      .ms-specs > div {
+        display: grid;
+        grid-template-columns: 5.4rem 1fr;
+        gap: 0.6rem;
+        padding-top: 0.55rem;
+        border-top: 1px solid var(--ms-line);
+      }
+      .ms-specs dt {
+        color: var(--ms-muted);
+        font-family: var(--ms-mono);
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .ms-specs dd {
+        margin: 0;
+        font-size: 0.78rem;
+        line-height: 1.4;
+      }
+      .ms-icons {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.65rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--ms-line);
+      }
+      .ms-icons svg {
+        display: block;
+        flex: 0 0 auto;
+      }
+      .ms-icons span {
+        margin-left: auto;
+        color: var(--ms-muted);
+        font-family: var(--ms-mono);
+        font-size: 0.55rem;
+        letter-spacing: 0.08em;
+      }
+      .ms-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding-top: 0.2rem;
+      }
+      .ms-actions a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2rem;
+        padding: 0 0.65rem;
+        border: 1px solid var(--ms-line);
+        border-radius: 999px;
+        color: var(--ms-ink);
+        font-family: var(--ms-mono);
+        font-size: 0.55rem;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .ms-actions a:hover {
+        border-color: var(--ms-accent);
+        color: var(--ms-accent);
+      }
+      .ms-rules {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding: 0.9rem 1.1rem;
+        border-top: 1px solid color-mix(in srgb, var(--ms-ink) 24%, transparent);
+      }
+      .ms-rules p {
+        margin: 0;
+        color: var(--ms-muted);
+        font-family: var(--ms-display);
+        font-size: 0.72rem;
+        line-height: 1.55;
+      }
+      .ms-rules b {
+        margin-right: 0.35rem;
+        color: var(--ms-ink);
+        font-family: var(--ms-mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .ms-split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+        gap: 1rem;
+      }
+      .ms-wordmark-card {
+        padding: 1rem;
+      }
+      .ms-wordmark-stage {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 11rem;
+        margin: 0.9rem 0;
+        padding: 1.4rem;
+        border: 1px solid var(--ms-line);
+        border-radius: calc(var(--ms-radius) * 0.7);
+        background: var(--ms-paper);
+        color: var(--ms-ink);
+      }
+      .ms-wordmark-stage .ms-wordmark {
+        width: min(80%, 18rem);
+        color: var(--ms-ink);
+      }
+      .ms-clear-box {
+        position: absolute;
+        inset: 10% 6%;
+        border: 1px dashed color-mix(in srgb, var(--ms-accent) 70%, transparent);
+        border-radius: 3px;
+        pointer-events: none;
+      }
+      .ms-scale {
+        display: flex;
+        align-items: flex-end;
+        gap: 1.3rem;
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--ms-line);
+      }
+      .ms-scale > div {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .ms-scale .ms-wordmark {
+        color: var(--ms-ink);
+      }
+      .ms-scale span {
+        color: var(--ms-muted);
+        font-family: var(--ms-mono);
+        font-size: 0.55rem;
+        letter-spacing: 0.08em;
+      }
+      .ms-note {
+        margin: 0.8rem 0 0;
+        color: var(--ms-muted);
+        font-family: var(--ms-display);
+        font-size: 0.72rem;
+        line-height: 1.55;
+        text-wrap: pretty;
+      }
+
+      .ms-cast-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+      }
+      .ms-cast-intro {
+        margin: 0.9rem 0 0;
+        color: var(--ms-muted);
+        font-family: var(--ms-display);
+        font-size: 0.72rem;
+        line-height: 1.55;
+      }
+      .ms-cast {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+      .ms-cast-tile {
+        display: flex;
+        min-height: 7.5rem;
+        grid-column: span 4;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.6rem;
+        padding: 0.7rem;
+        border: 1px solid var(--ms-line);
+        border-radius: calc(var(--ms-radius) * 0.6);
+        background: var(--ms-paper);
+      }
+      .ms-cast-tile:nth-child(4) {
+        grid-column: span 5;
+      }
+      .ms-cast-tile:nth-child(6) {
+        grid-column: span 3;
+      }
+      .ms-cast-tile svg {
+        display: block;
+        width: 100%;
+        max-width: 4rem;
+        height: auto;
+        color: var(--ms-ink);
+      }
+      .ms-cast-tile b {
+        display: block;
+        font-size: 0.85rem;
+        letter-spacing: -0.02em;
+      }
+      .ms-cast-tile span {
+        display: block;
+        margin-top: 0.15rem;
+        color: var(--ms-muted);
+        font-family: var(--ms-display);
+        font-size: 0.62rem;
+        line-height: 1.4;
+      }
+      .ms-rule {
+        max-width: 52rem;
+        margin: 1.5rem 0 0;
+        padding-top: 1rem;
+        border-top: 1px solid color-mix(in srgb, var(--ms-paper) 28%, transparent);
+        color: var(--ms-paper);
+        font-family: var(--ms-display);
+        font-size: 0.8rem;
+        line-height: 1.55;
+        opacity: 0.72;
+        text-wrap: pretty;
+      }
+
+      @media (max-width: 900px) {
+        .ms-head,
+        .ms-logo-body,
+        .ms-split {
+          grid-template-columns: 1fr;
+        }
+        .ms-rules {
+          grid-template-columns: 1fr;
+        }
+        .ms-cast-tile,
+        .ms-cast-tile:nth-child(4),
+        .ms-cast-tile:nth-child(6) {
+          grid-column: span 6;
+        }
+      }
+      @media (max-width: 520px) {
+        .ms-cast-tile,
+        .ms-cast-tile:nth-child(4),
+        .ms-cast-tile:nth-child(6) {
+          grid-column: 1 / -1;
+        }
+        .ms-stage {
+          min-height: 13rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="ms" id="marks" aria-labelledby="ms-title">
+      <div class="ms-shell">
+        <header class="ms-head">
+          <p class="ms-kicker"><span>02</span> Marks</p>
+          <h2 class="ms-title" id="ms-title">
+            A mark, a hand and a drawer of small marks.
+          </h2>
+          <p class="ms-lede">
+            Replace the placeholders with the brand's drawn system. Keep the four
+            movements: the logo card, the wordmark scale, the cast drawer and the
+            one rule that stops the cast from becoming decoration.
+          </p>
+        </header>
+
+        <article class="ms-card ms-logo">
+          <div class="ms-rail">
+            <span>Logo / 01</span>
+            <span>mark + wordmark</span>
+          </div>
+          <div class="ms-logo-body">
+            <div class="ms-stage">
+              <div class="ms-clear">
+                <div class="ms-lockup" role="img" aria-label="Brand lockup placeholder">
+                  <!-- Replace with the primary mark. -->
+                  <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M10 4L32 44L54 4L62 8L42 56L22 56L2 8Z" fill="currentColor" />
+                    <rect x="27" y="46" width="10" height="8" fill="var(--ms-accent)" />
+                  </svg>
+                  <!-- Replace with the drawn wordmark; never live text. -->
+                  <svg class="ms-wordmark" viewBox="0 0 160 34" aria-hidden="true">
+                    <path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" />
+                  </svg>
+                </div>
+              </div>
+              <span class="ms-stage-note">0.5× clear space / 34px mark</span>
+            </div>
+
+            <div class="ms-specs">
+              <p class="ms-note">
+                The mark is one drawn idea; the wordmark is a second drawing in
+                the same hand. The compact mark is a separate drawing, not a
+                scale-down.
+              </p>
+              <dl>
+                <div><dt>Header</dt><dd>34 mark · 25 wordmark · 8.5 name</dd></div>
+                <div><dt>Minimum</dt><dd>24 mark · 16 compact · 130 lockup</dd></div>
+                <div><dt>Clear space</dt><dd>Half the mark's height</dd></div>
+                <div><dt>Favicon</dt><dd>16 / 32 / 48 · 180 apple</dd></div>
+              </dl>
+              <div class="ms-icons" aria-label="Favicon sizes">
+                <svg width="48" height="48" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor"/><path d="M12 6L32 42L52 6L61 12L42 58L22 58L3 12Z" fill="var(--ms-paper)"/></svg>
+                <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor"/><path d="M12 6L32 42L52 6L61 12L42 58L22 58L3 12Z" fill="var(--ms-paper)"/></svg>
+                <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor"/><path d="M12 6L32 42L52 6L61 12L42 58L22 58L3 12Z" fill="var(--ms-paper)"/></svg>
+                <span>48 / 32 / 16</span>
+              </div>
+              <div class="ms-actions">
+                <a href="#">Lockup SVG</a>
+                <a href="#">Brand kit</a>
+              </div>
+            </div>
+          </div>
+          <div class="ms-rules">
+            <p><b>Do</b> Keep the mark, the hand and the cast in one material. Let the wordmark inherit the ink.</p>
+            <p><b>Don't</b> Recolour the subject, stretch the lockup, soften the offset, or use the cast as structure.</p>
+          </div>
+        </article>
+
+        <div class="ms-split">
+          <article class="ms-card ms-wordmark-card">
+            <div class="ms-rail">
+              <span>Wordmark / 02</span>
+              <span>drawn, not typeset</span>
+            </div>
+            <div class="ms-wordmark-stage">
+              <svg class="ms-wordmark" viewBox="0 0 160 34" role="img" aria-label="Wordmark placeholder">
+                <path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" />
+              </svg>
+              <span class="ms-clear-box" aria-hidden="true"></span>
+            </div>
+            <div class="ms-scale">
+              <div><svg class="ms-wordmark" viewBox="0 0 160 34" style="width:5rem" aria-hidden="true"><path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" /></svg><span>40</span></div>
+              <div><svg class="ms-wordmark" viewBox="0 0 160 34" style="width:3rem" aria-hidden="true"><path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" /></svg><span>24</span></div>
+              <div><svg class="ms-wordmark" viewBox="0 0 160 34" style="width:2rem" aria-hidden="true"><path d="M2 30V4h14l10 16L36 4h14v26H38V18l-8 12h-4L18 18v12z" fill="currentColor" /></svg><span>16</span></div>
+            </div>
+            <p class="ms-note">
+              Use the hand for the name and short asides. If it needs more than
+              three words, it belongs in the reading face.
+            </p>
+          </article>
+
+          <article class="ms-card ms-cast-card">
+            <div class="ms-rail">
+              <span>Cast / 03</span>
+              <span>one cut line, one fill</span>
+            </div>
+            <p class="ms-cast-intro">
+              Four to six marks, each with one job. The cast is punctuation:
+              never structure, never the only place a fact lives.
+            </p>
+            <div class="ms-cast">
+              <div class="ms-cast-tile">
+                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6L38 26L58 32L38 38L32 58L26 38L6 32L26 26Z" fill="var(--ms-accent)" stroke="var(--ms-ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+                <div><b>Spark</b><span>A small celebration</span></div>
+              </div>
+              <div class="ms-cast-tile">
+                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 50A26 26 0 0 1 58 50V58H6Z" fill="var(--ms-accent)" stroke="var(--ms-ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+                <div><b>Arc</b><span>A welcome</span></div>
+              </div>
+              <div class="ms-cast-tile">
+                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4L38 24L58 18L44 32L58 46L38 40L32 60L26 40L6 46L20 32L6 18L26 24Z" fill="var(--ms-accent)" stroke="var(--ms-ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+                <div><b>Burst</b><span>A loud note, never a headline</span></div>
+              </div>
+              <div class="ms-cast-tile">
+                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M4 32Q32 8 60 32Q32 56 4 32Z" fill="var(--ms-accent)" stroke="var(--ms-ink)" stroke-width="3.2" stroke-linejoin="round"/><circle cx="32" cy="32" r="8" fill="var(--ms-ink)"/></svg>
+                <div><b>Eye</b><span>Attention, used once</span></div>
+              </div>
+              <div class="ms-cast-tile">
+                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6C32 6 52 28 52 40A20 20 0 0 1 12 40C12 28 32 6 32 6Z" fill="var(--ms-accent)" stroke="var(--ms-ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+                <div><b>Drop</b><span>A material detail</span></div>
+              </div>
+              <div class="ms-cast-tile">
+                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M36 4L14 36H30L26 60L48 26H34Z" fill="var(--ms-accent)" stroke="var(--ms-ink)" stroke-width="3.2" stroke-linejoin="round"/></svg>
+                <div><b>Bolt</b><span>A little energy</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="ms-rule">
+          One rule: the cast is punctuation. Never structure, never the only place
+          a fact lives, never over type. Four to six per composition is plenty.
+        </p>
+      </div>
+    </section>
+  </body>
+</html>

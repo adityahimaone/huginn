@@ -1,0 +1,372 @@
+{
+  "generated": "2026-10-31T13:11:36.898Z",
+  "scopes": {
+    "light": [
+      {
+        "fg": "text",
+        "bg": "surface",
+        "a": "#1B2126",
+        "b": "#F7F4EE",
+        "job": "body text",
+        "min": 4.5,
+        "ratio": 14.8,
+        "pass": true
+      },
+      {
+        "fg": "text",
+        "bg": "surface-raised",
+        "a": "#1B2126",
+        "b": "#FFFFFF",
+        "job": "body text on a card",
+        "min": 4.5,
+        "ratio": 16.25,
+        "pass": true
+      },
+      {
+        "fg": "text-muted",
+        "bg": "surface",
+        "a": "#515B67",
+        "b": "#F7F4EE",
+        "job": "secondary text",
+        "min": 4.5,
+        "ratio": 6.29,
+        "pass": true
+      },
+      {
+        "fg": "text-faint",
+        "bg": "surface",
+        "a": "#6E7884",
+        "b": "#F7F4EE",
+        "job": "tertiary / large only",
+        "min": 3,
+        "ratio": 4.09,
+        "pass": true
+      },
+      {
+        "fg": "accent",
+        "bg": "surface",
+        "a": "#F7481B",
+        "b": "#F7F4EE",
+        "job": "accent as text",
+        "min": 4.5,
+        "ratio": 3.24,
+        "pass": false
+      },
+      {
+        "fg": "accent-ink",
+        "bg": "accent",
+        "a": "#1B2126",
+        "b": "#F7481B",
+        "job": "button label",
+        "min": 4.5,
+        "ratio": 4.56,
+        "pass": true
+      },
+      {
+        "fg": "text-inverse",
+        "bg": "surface-inverse",
+        "a": "#F7F4EE",
+        "b": "#1B2126",
+        "job": "inverse band",
+        "min": 4.5,
+        "ratio": 14.8,
+        "pass": true
+      },
+      {
+        "fg": "rule-strong",
+        "bg": "surface",
+        "a": "#6E7884",
+        "b": "#F7F4EE",
+        "job": "hairline that carries meaning",
+        "min": 3,
+        "ratio": 4.09,
+        "pass": true
+      },
+      {
+        "fg": "transit",
+        "bg": "surface",
+        "a": "#148BCD",
+        "b": "#F7F4EE",
+        "job": "transit label",
+        "min": 4.5,
+        "ratio": 3.41,
+        "pass": false
+      },
+      {
+        "fg": "park",
+        "bg": "surface",
+        "a": "#00A062",
+        "b": "#F7F4EE",
+        "job": "park label",
+        "min": 4.5,
+        "ratio": 3.08,
+        "pass": false
+      },
+      {
+        "fg": "heritage",
+        "bg": "surface",
+        "a": "#FCD260",
+        "b": "#F7F4EE",
+        "job": "heritage label",
+        "min": 4.5,
+        "ratio": 1.32,
+        "pass": false
+      },
+      {
+        "fg": "digital",
+        "bg": "surface",
+        "a": "#F194AF",
+        "b": "#F7F4EE",
+        "job": "digital label",
+        "min": 4.5,
+        "ratio": 1.99,
+        "pass": false
+      },
+      {
+        "fg": "night",
+        "bg": "surface",
+        "a": "#2830D0",
+        "b": "#F7F4EE",
+        "job": "night label",
+        "min": 4.5,
+        "ratio": 7.89,
+        "pass": true
+      },
+      {
+        "fg": "alert",
+        "bg": "surface",
+        "a": "#F53D3F",
+        "b": "#F7F4EE",
+        "job": "alert label",
+        "min": 4.5,
+        "ratio": 3.4,
+        "pass": false
+      }
+    ],
+    "night": [
+      {
+        "fg": "text",
+        "bg": "surface",
+        "a": "#F7F4EE",
+        "b": "#14181C",
+        "job": "body text",
+        "min": 4.5,
+        "ratio": 16.25,
+        "pass": true
+      },
+      {
+        "fg": "text",
+        "bg": "surface-raised",
+        "a": "#F7F4EE",
+        "b": "#1D2329",
+        "job": "body text on a card",
+        "min": 4.5,
+        "ratio": 14.44,
+        "pass": true
+      },
+      {
+        "fg": "text-muted",
+        "bg": "surface",
+        "a": "#8995A3",
+        "b": "#14181C",
+        "job": "secondary text",
+        "min": 4.5,
+        "ratio": 5.85,
+        "pass": true
+      },
+      {
+        "fg": "text-faint",
+        "bg": "surface",
+        "a": "#6E7884",
+        "b": "#14181C",
+        "job": "tertiary / large only",
+        "min": 3,
+        "ratio": 3.98,
+        "pass": true
+      },
+      {
+        "fg": "accent",
+        "bg": "surface",
+        "a": "#FF663E",
+        "b": "#14181C",
+        "job": "accent as text",
+        "min": 4.5,
+        "ratio": 6.14,
+        "pass": true
+      },
+      {
+        "fg": "accent-ink",
+        "bg": "accent",
+        "a": "#1B2126",
+        "b": "#FF663E",
+        "job": "button label",
+        "min": 4.5,
+        "ratio": 5.59,
+        "pass": true
+      },
+      {
+        "fg": "text-inverse",
+        "bg": "surface-inverse",
+        "a": "#1B2126",
+        "b": "#F7F4EE",
+        "job": "inverse band",
+        "min": 4.5,
+        "ratio": 14.8,
+        "pass": true
+      },
+      {
+        "fg": "rule-strong",
+        "bg": "surface",
+        "a": "#8995A3",
+        "b": "#14181C",
+        "job": "hairline that carries meaning",
+        "min": 3,
+        "ratio": 5.85,
+        "pass": true
+      },
+      {
+        "fg": "transit",
+        "bg": "surface",
+        "a": "#46A8DB",
+        "b": "#14181C",
+        "job": "transit label",
+        "min": 4.5,
+        "ratio": 6.7,
+        "pass": true
+      },
+      {
+        "fg": "park",
+        "bg": "surface",
+        "a": "#2DB26C",
+        "b": "#14181C",
+        "job": "park label",
+        "min": 4.5,
+        "ratio": 6.54,
+        "pass": true
+      },
+      {
+        "fg": "heritage",
+        "bg": "surface",
+        "a": "#FCD260",
+        "b": "#14181C",
+        "job": "heritage label",
+        "min": 4.5,
+        "ratio": 12.34,
+        "pass": true
+      },
+      {
+        "fg": "digital",
+        "bg": "surface",
+        "a": "#F4ADC2",
+        "b": "#14181C",
+        "job": "digital label",
+        "min": 4.5,
+        "ratio": 9.86,
+        "pass": true
+      },
+      {
+        "fg": "night",
+        "bg": "surface",
+        "a": "#656CF2",
+        "b": "#14181C",
+        "job": "night label",
+        "min": 4.5,
+        "ratio": 4.23,
+        "pass": false
+      },
+      {
+        "fg": "alert",
+        "bg": "surface",
+        "a": "#FF6162",
+        "b": "#14181C",
+        "job": "alert label",
+        "min": 4.5,
+        "ratio": 6.06,
+        "pass": true
+      }
+    ]
+  },
+  "ramps": [
+    {
+      "key": "langit",
+      "name": "Langit Senayan",
+      "hex": "#2830D0",
+      "onPaper": 7.89,
+      "onWhite": 8.66,
+      "bodyOnPaper": true,
+      "largeOnPaper": true
+    },
+    {
+      "key": "laut",
+      "name": "Laut Sunda",
+      "hex": "#148BCD",
+      "onPaper": 3.41,
+      "onWhite": 3.75,
+      "bodyOnPaper": false,
+      "largeOnPaper": true
+    },
+    {
+      "key": "menteng",
+      "name": "Merah Menteng",
+      "hex": "#F53D3F",
+      "onPaper": 3.4,
+      "onWhite": 3.74,
+      "bodyOnPaper": false,
+      "largeOnPaper": true
+    },
+    {
+      "key": "senja",
+      "name": "Senja Palmerah",
+      "hex": "#F7481B",
+      "onPaper": 3.24,
+      "onWhite": 3.56,
+      "bodyOnPaper": false,
+      "largeOnPaper": true
+    },
+    {
+      "key": "aspal",
+      "name": "Aspal Sudirman",
+      "hex": "#323941",
+      "onPaper": 10.64,
+      "onWhite": 11.68,
+      "bodyOnPaper": true,
+      "largeOnPaper": true
+    },
+    {
+      "key": "kebayoran",
+      "name": "Terang Kebayoran",
+      "hex": "#FCD260",
+      "onPaper": 1.32,
+      "onWhite": 1.45,
+      "bodyOnPaper": false,
+      "largeOnPaper": false
+    },
+    {
+      "key": "daun",
+      "name": "Menteng Daun",
+      "hex": "#00A062",
+      "onPaper": 3.08,
+      "onWhite": 3.38,
+      "bodyOnPaper": false,
+      "largeOnPaper": true
+    },
+    {
+      "key": "ancol",
+      "name": "Sinar Ancol",
+      "hex": "#9378F9",
+      "onPaper": 3.04,
+      "onWhite": 3.34,
+      "bodyOnPaper": false,
+      "largeOnPaper": true
+    },
+    {
+      "key": "doger",
+      "name": "Doger Mayestik",
+      "hex": "#F194AF",
+      "onPaper": 1.99,
+      "onWhite": 2.19,
+      "bodyOnPaper": false,
+      "largeOnPaper": false
+    }
+  ]
+}

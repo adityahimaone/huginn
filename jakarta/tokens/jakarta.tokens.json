@@ -1,0 +1,311 @@
+{
+  "name": "Jakarta",
+  "slug": "jakarta",
+  "namespace": "jk",
+  "version": "1.0.0",
+  "primitive": {
+    "kertas": "#F7F4EE",
+    "kapur": "#FFFFFF",
+    "tinta": "#1B2126",
+    "hitam": "#000000",
+    "kabut": "#EDE8DE",
+    "garis": "#DAD4C9",
+    "langit-100": "#2830D0",
+    "langit-200": "#454CE3",
+    "langit-300": "#656CF2",
+    "langit-400": "#858BF9",
+    "laut-100": "#148BCD",
+    "laut-200": "#46A8DB",
+    "laut-300": "#7AC5EA",
+    "laut-400": "#A6DEF7",
+    "menteng-100": "#F53D3F",
+    "menteng-200": "#FF6162",
+    "menteng-300": "#FF9192",
+    "menteng-400": "#FEA8A9",
+    "senja-100": "#F7481B",
+    "senja-200": "#FF663E",
+    "senja-300": "#FF9275",
+    "senja-400": "#FFB19D",
+    "aspal-100": "#323941",
+    "aspal-200": "#515B67",
+    "aspal-300": "#6E7884",
+    "aspal-400": "#8995A3",
+    "kebayoran-100": "#FCD260",
+    "kebayoran-200": "#FDDE8B",
+    "kebayoran-300": "#FDE9B2",
+    "kebayoran-400": "#FFF2D2",
+    "daun-100": "#00A062",
+    "daun-200": "#2DB26C",
+    "daun-300": "#6BCB7A",
+    "daun-400": "#A1E086",
+    "ancol-100": "#9378F9",
+    "ancol-200": "#AE9BFA",
+    "ancol-300": "#C8BDFB",
+    "ancol-400": "#DAD4FC",
+    "doger-100": "#F194AF",
+    "doger-200": "#F4ADC2",
+    "doger-300": "#F7C3D3",
+    "doger-400": "#F9D7E3",
+    "malam-000": "#0E1215",
+    "malam-100": "#14181C",
+    "malam-200": "#1D2329",
+    "malam-300": "#2C343B"
+  },
+  "semantic": {
+    "light": {
+      "surface": "#F7F4EE",
+      "surface-raised": "#FFFFFF",
+      "surface-sunken": "#EDE8DE",
+      "surface-inverse": "#1B2126",
+      "text": "#1B2126",
+      "text-muted": "#515B67",
+      "text-faint": "#6E7884",
+      "text-inverse": "#F7F4EE",
+      "rule": "#DAD4C9",
+      "rule-strong": "#6E7884",
+      "accent": "#F7481B",
+      "accent-hover": "#FF663E",
+      "accent-quiet": "#FFB19D",
+      "accent-ink": "#1B2126",
+      "transit": "#148BCD",
+      "park": "#00A062",
+      "heritage": "#FCD260",
+      "digital": "#F194AF",
+      "night": "#2830D0",
+      "alert": "#F53D3F",
+      "focus": "#2830D0"
+    },
+    "night": {
+      "surface": "#14181C",
+      "surface-raised": "#1D2329",
+      "surface-sunken": "#0E1215",
+      "surface-inverse": "#F7F4EE",
+      "text": "#F7F4EE",
+      "text-muted": "#8995A3",
+      "text-faint": "#6E7884",
+      "text-inverse": "#1B2126",
+      "rule": "#2C343B",
+      "rule-strong": "#8995A3",
+      "accent": "#FF663E",
+      "accent-hover": "#FF9275",
+      "accent-quiet": "#F7481B",
+      "accent-ink": "#1B2126",
+      "transit": "#46A8DB",
+      "park": "#2DB26C",
+      "heritage": "#FCD260",
+      "digital": "#F4ADC2",
+      "night": "#656CF2",
+      "alert": "#FF6162",
+      "focus": "#FCD260"
+    }
+  },
+  "type": {
+    "display-1": {
+      "key": "display-1",
+      "size": 104,
+      "lh": 0.9,
+      "track": -0.045,
+      "weight": 800,
+      "transform": "uppercase",
+      "use": "Hero only. One per page."
+    },
+    "display-2": {
+      "key": "display-2",
+      "size": 72,
+      "lh": 0.94,
+      "track": -0.04,
+      "weight": 800,
+      "transform": "uppercase",
+      "use": "Section openers."
+    },
+    "h1": {
+      "key": "h1",
+      "size": 48,
+      "lh": 1.02,
+      "track": -0.032,
+      "weight": 700,
+      "transform": "none",
+      "use": "Page title."
+    },
+    "h2": {
+      "key": "h2",
+      "size": 34,
+      "lh": 1.1,
+      "track": -0.024,
+      "weight": 700,
+      "transform": "none",
+      "use": "Section title."
+    },
+    "h3": {
+      "key": "h3",
+      "size": 24,
+      "lh": 1.2,
+      "track": -0.016,
+      "weight": 600,
+      "transform": "none",
+      "use": "Sub-section."
+    },
+    "h4": {
+      "key": "h4",
+      "size": 19,
+      "lh": 1.3,
+      "track": -0.01,
+      "weight": 600,
+      "transform": "none",
+      "use": "Card title, label row."
+    },
+    "body-l": {
+      "key": "body-l",
+      "size": 20,
+      "lh": 1.55,
+      "track": -0.008,
+      "weight": 400,
+      "transform": "none",
+      "use": "Standfirst, lead paragraph."
+    },
+    "body": {
+      "key": "body",
+      "size": 16.5,
+      "lh": 1.62,
+      "track": 0,
+      "weight": 400,
+      "transform": "none",
+      "use": "Default running text."
+    },
+    "body-s": {
+      "key": "body-s",
+      "size": 14.5,
+      "lh": 1.55,
+      "track": 0.002,
+      "weight": 400,
+      "transform": "none",
+      "use": "Captions, table cells."
+    },
+    "caption": {
+      "key": "caption",
+      "size": 11.5,
+      "lh": 1.4,
+      "track": 0.16,
+      "weight": 600,
+      "transform": "uppercase",
+      "use": "Route labels, eyebrow, section numbers."
+    },
+    "button": {
+      "key": "button",
+      "size": 15,
+      "lh": 1,
+      "track": 0.01,
+      "weight": 600,
+      "transform": "none",
+      "use": "Controls. Never tracked out."
+    }
+  },
+  "space": {
+    "0": 0,
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 24,
+    "6": 32,
+    "7": 48,
+    "8": 64,
+    "9": 96,
+    "10": 128,
+    "11": 176
+  },
+  "radius": {
+    "0": 0,
+    "1": 2,
+    "2": 8,
+    "3": 18,
+    "full": 999
+  },
+  "shadow": {
+    "1": "0 1px 0 0 rgba(27,33,38,.06)",
+    "2": "0 2px 8px -2px rgba(27,33,38,.10), 0 1px 0 0 rgba(27,33,38,.05)",
+    "3": "0 18px 44px -20px rgba(27,33,38,.28), 0 2px 6px -2px rgba(27,33,38,.08)"
+  },
+  "motion": {
+    "fast": 120,
+    "base": 220,
+    "slow": 380,
+    "ease": "cubic-bezier(.2,.7,.1,1)"
+  },
+  "ramps": [
+    {
+      "key": "langit",
+      "name": "Langit Senayan",
+      "gloss": "Senayan Sky",
+      "job": "Night ground, sky, long-horizon wayfinding",
+      "note": "The colour of the sky above the ring road at 6pm, before the lights win."
+    },
+    {
+      "key": "laut",
+      "name": "Laut Sunda",
+      "gloss": "Sunda Sea",
+      "job": "Transit, infrastructure, information",
+      "note": "The water the city grew around. Thirteen kilometres north and always uphill."
+    },
+    {
+      "key": "menteng",
+      "name": "Merah Menteng",
+      "gloss": "Menteng Red",
+      "job": "Alert, closure, emergency only",
+      "note": "The red of a shophouse door, not the red of a warning light. Used for one of those."
+    },
+    {
+      "key": "senja",
+      "name": "Senja Palmerah",
+      "gloss": "Palmerah Dusk",
+      "job": "Primary accent, civic action",
+      "note": "The colour the sky turns over the railway at Palmerah. The brand's one loud voice."
+    },
+    {
+      "key": "aspal",
+      "name": "Aspal Sudirman",
+      "gloss": "Sudirman Asphalt",
+      "job": "Text, rules, structure",
+      "note": "Four greys off one road, because a city is mostly this."
+    },
+    {
+      "key": "kebayoran",
+      "name": "Terang Kebayoran",
+      "gloss": "Kebayoran Light",
+      "job": "Heritage, celebration, print ground",
+      "note": "Afternoon light on a 1970s facade. Never carries text below 24px."
+    },
+    {
+      "key": "daun",
+      "name": "Menteng Daun",
+      "gloss": "Menteng Leaf",
+      "job": "Parks, sustainability, public health",
+      "note": "Taken from the canopy over Taman Suropati, not from a logo for a bank."
+    },
+    {
+      "key": "ancol",
+      "name": "Sinar Ancol",
+      "gloss": "Ancol Light",
+      "job": "Digital, youth, night events",
+      "note": "The violet of the bay at dusk, when the funfair is on."
+    },
+    {
+      "key": "doger",
+      "name": "Doger Mayestik",
+      "gloss": "Mayestik Pink",
+      "job": "Campaign, culture, market",
+      "note": "Named for the pink dessert sold at Mayestik. The city's softest colour."
+    }
+  ],
+  "mark": {
+    "unit": 100,
+    "viewBox": "0 0 650 576",
+    "outerRadius": 2,
+    "innerRadius": 1,
+    "dotDiameter": 1.38,
+    "dotGap": 0.62,
+    "clearSpace": 1,
+    "minDigital": 24,
+    "minPrint": 8
+  }
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Jakarta — board</title>
+<style>
+@font-face{font-family:'PJS';src:url('../assets/fonts/PlusJakartaSans-var.woff2') format('woff2-variations');font-weight:200 800;font-display:block}
+:root{
+  --paper:#F7F4EE; --ink:#1B2126; --rule:#DAD4C9; --senja:#F7481B; --muted:#515B67;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1500px;height:1125px;overflow:hidden}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:'PJS',system-ui,sans-serif;
+  padding:54px 58px 0;
+  display:flex; flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:13px;letter-spacing:-.01em}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:22px;border-bottom:1px solid var(--ink)}
+h1{font-size:96px;font-weight:800;letter-spacing:-.045em;line-height:.86;text-transform:uppercase;margin-top:10px}
+h1 em{font-style:normal;color:var(--senja)}
+.head-r{text-align:right;display:flex;flex-direction:column;gap:6px;padding-top:6px}
+
+.main{display:grid;grid-template-columns:1fr 470px;gap:52px;flex:1;padding-top:30px}
+
+.markwrap{display:flex;flex-direction:column;justify-content:space-between}
+.mark{width:392px}
+.mark svg{width:100%;height:auto;display:block}
+.claim{font-size:29px;line-height:1.22;letter-spacing:-.028em;font-weight:600;max-width:20ch;margin-top:26px}
+.claim span{color:var(--muted);font-weight:400}
+.ratio{display:flex;gap:26px;margin-top:24px;padding-top:16px;border-top:1px solid var(--rule)}
+.ratio div{font-size:12px;color:var(--muted)}
+.ratio b{display:block;font-size:22px;color:var(--ink);letter-spacing:-.03em;margin-bottom:2px;font-weight:700}
+
+.ramps{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ink)}
+.ramp{display:grid;grid-template-columns:122px 1fr;align-items:center;gap:10px;padding:6.5px 0;border-bottom:1px solid var(--rule)}
+.ramp .n{font-size:12.5px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+.ramp .n i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);height:34px}
+.steps span{display:block}
+
+footer{margin-top:auto;padding-bottom:0}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;height:152px;margin-top:22px}
+.strip div{background-size:cover;background-position:center;filter:saturate(.95)}
+.band{height:12px;display:flex;margin-top:8px}
+.band i{flex:1}
+.base{display:flex;justify-content:space-between;padding:10px 0 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--rule);margin-top:14px}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <p class="eyebrow">Pemerintah Provinsi DKI Jakarta · Identitas Visual 2026</p>
+    <h1>Kota<br><em>Kolaborasi</em></h1>
+  </div>
+  <div class="head-r">
+    <p class="eyebrow">Brand board 01/01</p>
+    <p class="mono" style="color:var(--muted)">44 kecamatan · 10,6 jt penduduk<br>9 district ramps · 1 stroke</p>
+  </div>
+</header>
+
+<div class="main">
+  <div class="markwrap">
+    <div>
+      <div class="mark"><img src="../brand/mark-ink.svg" alt="" style="width:100%;display:block"></div>
+      <p class="claim">Satu garis berbelok. <span>Satu perhentian dibuat.</span></p>
+    </div>
+    <div class="ratio">
+      <div><b>1S</b>stroke</div>
+      <div><b>2S</b>outer corner</div>
+      <div><b>1,38S</b>stop</div>
+      <div><b>0,62S</b>gap</div>
+      <div><b>0</b>monument</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="ramps" id="ramps"></div>
+    <div class="band" id="band"></div>
+    <p class="mono" style="color:var(--muted);margin-top:10px;font-size:11.5px;line-height:1.55">Primitives are places; semantics are jobs.<br>Kebayoran 1,32:1 · Doger 1,99:1 — surfaces, never type.</p>
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--rule)">
+      <img src="../brand/wordmark.svg" alt="JAKARTA" style="width:236px;display:block">
+      <p class="mono" style="color:var(--muted);margin-top:8px;font-size:11px;letter-spacing:.06em">OUTLINED · Wght 800 · −0,045em</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="strip">
+    <div style="background-image:url('../assets/photos/semanggi.jpg')"></div>
+    <div style="background-image:url('../assets/photos/monas.jpg')"></div>
+    <div style="background-image:url('../assets/photos/scbd.jpg')"></div>
+  </div>
+  <div class="base">
+    <span>Jakarta — Kota Kolaborasi</span>
+    <span>Plus Jakarta Sans · variable 200–800</span>
+    <span>--jk-* · 46 primitives · 21 roles</span>
+  </div>
+</footer>
+
+<script>
+const ramps = [
+  ['Langit Senayan','Senayan Sky',['#2830D0','#454CE3','#656CF2','#858BF9']],
+  ['Laut Sunda','Sunda Sea',['#148BCD','#46A8DB','#7AC5EA','#A6DEF7']],
+  ['Merah Menteng','Menteng Red',['#F53D3F','#FF6162','#FF9192','#FEA8A9']],
+  ['Senja Palmerah','Palmerah Dusk',['#F7481B','#FF663E','#FF9275','#FFB19D']],
+  ['Aspal Sudirman','Sudirman Asphalt',['#323941','#515B67','#6E7884','#8995A3']],
+  ['Terang Kebayoran','Kebayoran Light',['#FCD260','#FDDE8B','#FDE9B2','#FFF2D2']],
+  ['Menteng Daun','Menteng Leaf',['#00A062','#2DB26C','#6BCB7A','#A1E086']],
+  ['Sinar Ancol','Ancol Light',['#9378F9','#AE9BFA','#C8BDFB','#DAD4FC']],
+  ['Doger Mayestik','Mayestik Pink',['#F194AF','#F4ADC2','#F7C3D3','#F9D7E3']],
+]
+document.getElementById('ramps').innerHTML = ramps.map(([n,g,cs]) =>
+  `<div class="ramp"><div class="n">${n}<i>${g}</i></div><div class="steps">${cs.map(c=>`<span style="background:${c}"></span>`).join('')}</div></div>`
+).join('')
+document.getElementById('band').innerHTML = ramps.map(([, , cs]) => `<i style="background:${cs[0]}"></i>`).join('')
+</script>
+</body>
+</html>

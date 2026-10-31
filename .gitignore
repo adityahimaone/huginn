@@ -10,3 +10,6 @@ node_modules/
 .next/
 out/
 dist/
+
+# Jakarta design-system QA screenshots (regenerable via scripts/shots.mjs).
+jakarta/docs/shots/

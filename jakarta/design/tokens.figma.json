@@ -1,0 +1,201 @@
+{
+  "name": "Jakarta",
+  "slug": "jakarta",
+  "claim": "A city of junctions, not a city of monuments.",
+  "color": {
+    "kertas": "#F7F4EE",
+    "kapur": "#FFFFFF",
+    "tinta": "#1B2126",
+    "hitam": "#000000",
+    "kabut": "#EDE8DE",
+    "garis": "#DAD4C9",
+    "langit-100": "#2830D0",
+    "langit-200": "#454CE3",
+    "langit-300": "#656CF2",
+    "langit-400": "#858BF9",
+    "laut-100": "#148BCD",
+    "laut-200": "#46A8DB",
+    "laut-300": "#7AC5EA",
+    "laut-400": "#A6DEF7",
+    "menteng-100": "#F53D3F",
+    "menteng-200": "#FF6162",
+    "menteng-300": "#FF9192",
+    "menteng-400": "#FEA8A9",
+    "senja-100": "#F7481B",
+    "senja-200": "#FF663E",
+    "senja-300": "#FF9275",
+    "senja-400": "#FFB19D",
+    "aspal-100": "#323941",
+    "aspal-200": "#515B67",
+    "aspal-300": "#6E7884",
+    "aspal-400": "#8995A3",
+    "kebayoran-100": "#FCD260",
+    "kebayoran-200": "#FDDE8B",
+    "kebayoran-300": "#FDE9B2",
+    "kebayoran-400": "#FFF2D2",
+    "daun-100": "#00A062",
+    "daun-200": "#2DB26C",
+    "daun-300": "#6BCB7A",
+    "daun-400": "#A1E086",
+    "ancol-100": "#9378F9",
+    "ancol-200": "#AE9BFA",
+    "ancol-300": "#C8BDFB",
+    "ancol-400": "#DAD4FC",
+    "doger-100": "#F194AF",
+    "doger-200": "#F4ADC2",
+    "doger-300": "#F7C3D3",
+    "doger-400": "#F9D7E3",
+    "malam-000": "#0E1215",
+    "malam-100": "#14181C",
+    "malam-200": "#1D2329",
+    "malam-300": "#2C343B"
+  },
+  "semantic": {
+    "light": {
+      "surface": "var(--jk-kertas)",
+      "surface-raised": "var(--jk-kapur)",
+      "surface-sunken": "var(--jk-kabut)",
+      "surface-inverse": "var(--jk-tinta)",
+      "text": "var(--jk-tinta)",
+      "text-muted": "var(--jk-aspal-200)",
+      "text-faint": "var(--jk-aspal-300)",
+      "text-inverse": "var(--jk-kertas)",
+      "rule": "var(--jk-garis)",
+      "rule-strong": "var(--jk-aspal-300)",
+      "accent": "var(--jk-senja-100)",
+      "accent-hover": "var(--jk-senja-200)",
+      "accent-quiet": "var(--jk-senja-400)",
+      "accent-ink": "var(--jk-tinta)",
+      "transit": "var(--jk-laut-100)",
+      "park": "var(--jk-daun-100)",
+      "heritage": "var(--jk-kebayoran-100)",
+      "digital": "var(--jk-doger-100)",
+      "night": "var(--jk-langit-100)",
+      "alert": "var(--jk-menteng-100)",
+      "focus": "var(--jk-langit-100)"
+    },
+    "dark": {
+      "surface": "var(--jk-malam-100)",
+      "surface-raised": "var(--jk-malam-200)",
+      "surface-sunken": "var(--jk-malam-000)",
+      "surface-inverse": "var(--jk-kertas)",
+      "text": "var(--jk-kertas)",
+      "text-muted": "var(--jk-aspal-400)",
+      "text-faint": "var(--jk-aspal-300)",
+      "text-inverse": "var(--jk-tinta)",
+      "rule": "var(--jk-malam-300)",
+      "rule-strong": "var(--jk-aspal-400)",
+      "accent": "var(--jk-senja-200)",
+      "accent-hover": "var(--jk-senja-300)",
+      "accent-quiet": "var(--jk-senja-100)",
+      "accent-ink": "var(--jk-tinta)",
+      "transit": "var(--jk-laut-200)",
+      "park": "var(--jk-daun-200)",
+      "heritage": "var(--jk-kebayoran-100)",
+      "digital": "var(--jk-doger-200)",
+      "night": "var(--jk-langit-300)",
+      "alert": "var(--jk-menteng-200)",
+      "focus": "var(--jk-kebayoran-100)"
+    }
+  },
+  "space": {
+    "0": 0,
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 24,
+    "6": 32,
+    "7": 48,
+    "8": 64,
+    "9": 96,
+    "10": 128,
+    "11": 176
+  },
+  "radius": {
+    "0": 0,
+    "1": 2,
+    "2": 8,
+    "3": 18,
+    "full": 999
+  },
+  "shadow": {
+    "1": "0 1px 0 0 rgba(27,33,38,.06)",
+    "2": "0 2px 8px -2px rgba(27,33,38,.10), 0 1px 0 0 rgba(27,33,38,.05)",
+    "3": "0 18px 44px -20px rgba(27,33,38,.28), 0 2px 6px -2px rgba(27,33,38,.08)"
+  },
+  "motion": {
+    "fast": 120,
+    "base": 220,
+    "slow": 380,
+    "ease": "cubic-bezier(.2,.7,.1,1)"
+  },
+  "type": {
+    "display-1": {
+      "$value": 104,
+      "$lineHeight": 0.9,
+      "$tracking": "-0.045em",
+      "$weight": 800
+    },
+    "display-2": {
+      "$value": 72,
+      "$lineHeight": 0.94,
+      "$tracking": "-0.04em",
+      "$weight": 800
+    },
+    "h1": {
+      "$value": 48,
+      "$lineHeight": 1.02,
+      "$tracking": "-0.032em",
+      "$weight": 700
+    },
+    "h2": {
+      "$value": 34,
+      "$lineHeight": 1.1,
+      "$tracking": "-0.024em",
+      "$weight": 700
+    },
+    "h3": {
+      "$value": 24,
+      "$lineHeight": 1.2,
+      "$tracking": "-0.016em",
+      "$weight": 600
+    },
+    "h4": {
+      "$value": 19,
+      "$lineHeight": 1.3,
+      "$tracking": "-0.01em",
+      "$weight": 600
+    },
+    "body-l": {
+      "$value": 20,
+      "$lineHeight": 1.55,
+      "$tracking": "-0.008em",
+      "$weight": 400
+    },
+    "body": {
+      "$value": 16.5,
+      "$lineHeight": 1.62,
+      "$tracking": "0em",
+      "$weight": 400
+    },
+    "body-s": {
+      "$value": 14.5,
+      "$lineHeight": 1.55,
+      "$tracking": "0.002em",
+      "$weight": 400
+    },
+    "caption": {
+      "$value": 11.5,
+      "$lineHeight": 1.4,
+      "$tracking": "0.16em",
+      "$weight": 600
+    },
+    "button": {
+      "$value": 15,
+      "$lineHeight": 1,
+      "$tracking": "0.01em",
+      "$weight": 600
+    }
+  }
+}
