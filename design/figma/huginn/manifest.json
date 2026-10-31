@@ -1,0 +1,14 @@
+{
+  "name": "Huginn design system",
+  "id": "brand-forge-huginn-mvvx10fx",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  }
+}
